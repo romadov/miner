@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сапер</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="game-container">
+    <div class="top-banner">
+        <button class="mines-btn">
+            Mines
+            <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">
+        </button>
+        <button class="how-to-play">
+            <img src="img/icon-question.svg" alt="Question Icon" class="question-icon">
+            How to Play?
+        </button>
+        <span class="currency">3,000.00 <span class="symbol">USD</span></span>
+        <img src="img/menu.svg" alt="Menu" class="menu-icon">
+    </div>
+    <div>
+        <div class="mine-selection">
+            <div class="custom-select">
+                <div class="select-selected">
+                    <div class="text-container">Mines: 1</div>
+                    <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">
+                </div>
+                <div class="select-items select-hide">
+                    <div data-value="1" class="selected">Mines: 1</div>
+                    <div data-value="2">Mines: 2</div>
+                    <div data-value="3">Mines: 3</div>
+                    <div data-value="4">Mines: 4</div>
+                    <div data-value="5">Mines: 5</div>
+                    <div data-value="6">Mines: 6</div>
+                    <div data-value="7">Mines: 7</div>
+                    <div data-value="8">Mines: 8</div>
+                    <div data-value="9">Mines: 9</div>
+                    <div data-value="10">Mines: 10</div>
+                    <div data-value="11">Mines: 11</div>
+                    <div data-value="12">Mines: 12</div>
+                    <div data-value="13">Mines: 13</div>
+                    <div data-value="14">Mines: 14</div>
+                    <div data-value="15">Mines: 15</div>
+                    <div data-value="16">Mines: 16</div>
+                    <div data-value="17">Mines: 17</div>
+                    <div data-value="18">Mines: 18</div>
+                    <div data-value="19">Mines: 19</div>
+                    <div data-value="20">Mines: 20</div>
+                </div>
+            </div>
+            <button class="next-btn">Next: 1.10x</button>
+        </div>
+    <div id="minesweeper-field">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+    </div>
+    <div class="game-controls">
+        <button class="control-btn" id="random-btn">RANDOM</button>
+        <div class="auto-game-control">
+            <img src="img/icon-auto-game.svg" alt="Auto Game Icon" class="auto-game-icon">
+            <label class="switch">
+                <input type="checkbox" id="auto-game-toggle">
+                <span class="slider round"></span>
+            </label>
+            <span>Auto Game</span>
+        </div>
+    </div>
+    </div>
+    <div class="bottom-banner">
+        <div class="bottom-banner__flex">
+        <div class="bet-controls">
+            <div class="bottom-banner__text">
+            <label for="bet-input" id="bet-label">Bet USD</label>
+            <input type="text" id="bet-input" readonly value="0.30">
+            </div>
+            <div id="keypad" class="keypad">
+                <div class="keypad-row">
+                    <button class="keypad-btn">1</button>
+                    <button class="keypad-btn">2</button>
+                    <button class="keypad-btn">3</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="keypad-btn">4</button>
+                    <button class="keypad-btn">5</button>
+                    <button class="keypad-btn">6</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="keypad-btn">7</button>
+                    <button class="keypad-btn">8</button>
+                    <button class="keypad-btn">9</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="keypad-btn">.</button>
+                    <button class="keypad-btn">0</button>
+                    <button class="keypad-btn delete-btn">
+                        <img src="img/icon-backspace.svg" alt="Backspace Icon">
+                    </button>
+                </div>
+                <button class="keypad-btn apply-btn"><img src="img/icon-confirm.svg" alt="Apply Icon"></button>
+            </div>
+            <button class="bet-btn" id="minus-btn">-</button>
+            <button class="bet-btn" id="dropdown-btn">
+                <img src="img/icon-coin.svg" alt="Coin Icon">
+            </button>
+            <button class="bet-btn" id="plus-btn">+</button>
+        </div>
+            <div class="reload-btn">
+                <img src="img/icon-auto-play.svg" alt="">
+            </div>
+        <button class="bet-btn" id="bet-btn">
+            <img src="img/icon-play.svg" alt="Play Icon" class="icon-play">
+            Bet
+        </button>
+        </div>
+        <div id="dropdown-menu">
+            <div class="dropdown-header">Bet USD</div>
+            <div class="dropdown-content">
+                <div class="dropdown-item">0.10</div>
+                <div class="dropdown-item">0.20</div>
+                <div class="dropdown-item">0.30</div>
+                <div class="dropdown-item">0.40</div>
+                <div class="dropdown-item">0.50</div>
+                <div class="dropdown-item">0.60</div>
+                <div class="dropdown-item">0.70</div>
+                <div class="dropdown-item">0.80</div>
+                <div class="dropdown-item">1.20</div>
+                <div class="dropdown-item">2.00</div>
+                <div class="dropdown-item">4.00</div>
+                <div class="dropdown-item">10.00</div>
+                <div class="dropdown-item">20.00</div>
+                <div class="dropdown-item">50.00</div>
+                <div class="dropdown-item">100.00</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+<script src="gameLogic.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currencySymbol = localStorage.getItem('currencySymbol') || 'USD';
+        document.querySelectorAll('.currency .symbol').forEach(function(symbolElement) {
+            symbolElement.textContent = currencySymbol;
+        });
+        document.getElementById('bet-label').textContent = `Bet ${currencySymbol}`;
+        document.querySelector('.dropdown-header').textContent = `Bet ${currencySymbol}`;
+    });
+</script>
+</body>
+</html>
