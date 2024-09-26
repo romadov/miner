@@ -21,13 +21,10 @@
         <span class="currency">3,000.00 <span class="symbol">USD</span></span>
         <img src="img/menu.svg" alt="Menu" class="menu-icon">
     </div>
-    <div>
+    <div class="mob-padding">
         <div class="mine-selection">
             <div class="custom-select">
-                <div class="select-selected">
-                    <div class="text-container">Mines: 1</div>
-                    <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">
-                </div>
+                <div class="select-selected select-arrow-active" data-value="3">mines: 3 <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon"></div>
                 <div class="select-items select-hide">
                     <div data-value="1" class="selected">Mines: 1</div>
                     <div data-value="2">Mines: 2</div>
@@ -51,7 +48,7 @@
                     <div data-value="20">Mines: 20</div>
                 </div>
             </div>
-            <button class="next-btn">Next: 1.10x</button>
+            <button class="next-btn" id="next-btn">Next: 1.10x</button>
         </div>
     <div id="minesweeper-field">
         <div class="cell"></div>
@@ -130,13 +127,18 @@
             </button>
             <button class="bet-btn" id="plus-btn">+</button>
         </div>
+            <div class="button-row">
             <div class="reload-btn">
                 <img src="img/icon-auto-play.svg" alt="">
             </div>
+            <div class="relative-block">
         <button class="bet-btn" id="bet-btn">
             <img src="img/icon-play.svg" alt="Play Icon" class="icon-play">
             Bet
         </button>
+            </div>
+                <span id="cashout-amount"></span>
+            </div>
         </div>
         <div id="dropdown-menu">
             <div class="dropdown-header">Bet USD</div>

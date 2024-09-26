@@ -23,6 +23,29 @@ body {
     padding: 3px 0; /* Минимальные отступы сверху и снизу */
 }
 
+#cashout-amount {
+    display: none;
+    position: absolute;
+    bottom: 10%;
+    left: 25%;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    background: rgba(0, 0, 0, .41);
+    width: 70px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    color: white;
+    padding-bottom: 3px;
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+.relative-block{
+    position: relative;
+}
+
 .top-banner {
     width: 98.5%;
     height: 30px;
@@ -300,7 +323,7 @@ body {
     background-color: #0267a5;
     font-size: 12px;
     color: white;
-    padding: 2px;
+    padding: 4px;
     border: 1px solid rgba(0, 0, 0, .5);
     border-radius: 20px;
     cursor: pointer;
@@ -544,4 +567,112 @@ input:checked + .slider:before {
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+}
+
+.button-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    position: relative;
+}
+
+@media screen and (max-width: 670px) {
+    #game-container {
+        width: 100%;
+        max-height: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .mob-padding {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #minesweeper-field {
+        margin: auto;
+        border-top: none;
+    }
+    .game-controls {
+        position: absolute;
+        bottom: 215px;
+        width: 98%;
+        display: flex;
+        justify-content: center;
+    }
+    .top-banner {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+    }
+    .bottom-banner {
+        width: 100%;
+        height: 250px;
+        flex-direction: column;
+    }
+    .bottom-banner__flex {
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        margin-top: 30px;
+    }
+    .bet-controls {
+        order: 2;
+        margin-top: 15px;
+    }
+    .relative-block {
+        width: auto;
+    }
+    .mine-selection{
+        width: 100%;
+        position: relative;
+    }
+    .mine-selection::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background-color: rgba(0, 0, 0, .3);
+        border-radius: 0 0 10px 10px;
+    }
+    .mines-btn{
+        margin-right: 5px;
+    }
+    .question-icon{
+        padding-right: 0;
+    }
+    .how-to-play {
+        width: 25px; /* Adjust width to fit the icon */
+        padding: 10px; /* Adjust padding as needed */
+        font-size: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .how-to-play::after {
+        content: none; /* Remove the text */
+    }
+    .how-to-play img {
+        padding-left: 9px;
+        margin: 0; /* Remove any margin around the icon */
+    }
+    #bet-input{
+        height: 20px;
+    }
+    .keypad{
+        left: -10% !important;
+    }
+    #dropdown-menu{
+        bottom: 11% !important;
+        left: 50% !important;
+    }
 }
