@@ -701,4 +701,7 @@ input:checked + .slider:before {
         cursor: pointer;
         background-repeat: no-repeat;
     }
+    .cashout-amount{
+        right: 32% !important;
+    }
 }

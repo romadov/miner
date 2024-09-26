@@ -28,17 +28,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let firstClick = false; // Flag to track the first click
     let progressBar = document.getElementById('progress-bar');
     let progress = 0;
+    let clickedCells = []; // Array to keep track of clicked cells
 
     document.querySelectorAll('.cell').forEach(function(cell, index) {
         cell.addEventListener('click', function() {
             if (!gameActive) return;
 
             cell.classList.add('flipped');
+            clickedCells.push(index); // Add the clicked cell index to the array
             setTimeout(() => {
                 if (mineIndices.includes(index)) {
                     cell.style.backgroundImage = "url('img/bomb.png')";
                     gameActive = false;
-                    handleMineHit(index);
+                    handleMineHit(index); // Call handleMineHit when a mine is hit
                 } else {
                     cell.style.backgroundImage = "url('img/star.png')";
                     currentCoefficient *= 1.15;
@@ -46,7 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     let betAmount = parseFloat(document.getElementById('bet-input').value);
                     let cashoutAmount = betAmount * currentCoefficient;
-                    document.getElementById('cashout-amount').textContent = `${cashoutAmount.toFixed(2)} USD`;
+                    const currencySymbol = localStorage.getItem('currencySymbol') || 'USD'; // Retrieve the selected currency symbol
+                    document.getElementById('cashout-amount').textContent = `${cashoutAmount.toFixed(2)} ${currencySymbol}`; // Use the selected currency symbol
 
                     // Update progress bar
                     progress += 4.2;
@@ -56,6 +59,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         });
     });
+
+    // Function to handle mine hit
+    function handleMineHit(hitIndex) {
+        let cells = document.querySelectorAll('.cell');
+        cells[hitIndex].style.backgroundImage = "url('img/bomb.png')";
+        revealAllCells(hitIndex);
+
+        // Retrieve the bet amount
+        let betAmount = parseFloat(document.getElementById('bet-input').value);
+
+        // Subtract the bet amount from the total amount
+        totalAmount -= betAmount;
+        updateTotalAmount(); // Update the displayed total amount
+
+        // Reload the page after 3 seconds
+        setTimeout(() => {
+            location.reload();
+        }, 3000);
+    }
 
     // Function to update the total amount displayed
     function updateTotalAmount() {
@@ -70,68 +92,48 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('next-btn').textContent = `Next: ${currentCoefficient.toFixed(2)}x`;
     }
 
-    // Function to handle mine hit
-    function handleMineHit(index) {
-        console.log('Mine hit at index:', index); // Debugging log
-        let betAmount = parseFloat(document.getElementById('bet-input').value);
-        totalAmount -= betAmount;
-        updateTotalAmount();
-        revealAllCells(index); // Pass the index of the hit mine
-
-        // Revert the Bet button to its original state
-        document.getElementById('bet-btn').innerHTML = '<img src="img/icon-play.svg" alt="Play Icon" class="icon-play"> Bet';
-        document.getElementById('bet-btn').style.backgroundImage = ''; // Reset button background
-        document.getElementById('bet-btn').style.paddingTop = ''; // Remove padding-top style
-
-        // Hide the cashout amount
-        document.getElementById('cashout-amount').style.display = 'none';
-
-        // Disable all interactive elements
-        document.querySelectorAll('.cell').forEach(cell => {
-            cell.style.pointerEvents = 'none';
-        });
-        document.getElementById('bet-btn').disabled = true;
-        document.getElementById('random-btn').disabled = true;
-
-        // Reload the game after 3 seconds
-        setTimeout(() => {
-            console.log('Reloading game...'); // Debugging log
-            location.reload();
-        }, 3000);
-    }
-
-
-
-// Function to reveal all cells
-    function revealAllCells(hitMineIndex) {
+    function revealAllCells(hitIndex) {
         let cells = document.querySelectorAll('.cell');
         cells.forEach(function(cell, index) {
-            cell.classList.add('flipped');
             setTimeout(() => {
-                if (mineIndices.includes(index)) {
-                    cell.style.backgroundImage = "url('img/bomb.png')";
-                } else {
-                    cell.style.backgroundImage = "url('img/star.png')";
+                if (index !== hitIndex) {
+                    if (mineIndices.includes(index)) {
+                        cell.style.backgroundImage = "url('img/opened-bomb.png')";
+                    } else if (clickedCells.includes(index)) {
+                        cell.style.backgroundImage = "url('img/star.png')";
+                    } else {
+                        cell.style.backgroundImage = "url('img/opened-star.png')";
+                    }
                 }
             }, 300); // Delay to allow the flip animation to complete
         });
     }
 
-    // Event listener for the bet button
     document.getElementById('bet-btn').addEventListener('click', function() {
         let betAmount = parseFloat(document.getElementById('bet-input').value);
         let cashoutAmount = betAmount * currentCoefficient;
+        const currencySymbol = localStorage.getItem('currencySymbol') || 'USD'; // Retrieve the selected currency symbol
 
         if (gameActive) {
             // Cashout logic
             totalAmount += cashoutAmount;
             updateTotalAmount();
-            document.getElementById('cashout-amount').textContent = `${cashoutAmount.toFixed(2)} USD`;
+            document.getElementById('cashout-amount').textContent = `${cashoutAmount.toFixed(2)} ${currencySymbol}`; // Use the selected currency symbol
+            document.getElementById('cashout-amount-display').textContent = `+${cashoutAmount.toFixed(2)} ${currencySymbol}`; // Display the cashout amount in green
+            document.getElementById('cashout-amount-display').style.display = 'inline'; // Show the cashout amount
             gameActive = false;
             document.getElementById('bet-btn').innerHTML = '<img src="img/icon-play.svg" alt="Play Icon" class="icon-play"> Bet';
             document.getElementById('bet-btn').style.backgroundImage = ''; // Reset button background
             document.getElementById('bet-btn').style.paddingTop = ''; // Remove padding-top style
             document.getElementById('cashout-amount').style.display = 'none'; // Hide the cashout amount
+
+            // Reveal all cells with appropriate images
+            revealAllCells();
+
+            // Reload the page after 3 seconds
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
         } else {
             // Start game logic
             let mineCount = parseInt(document.querySelector('.select-selected').dataset.value);
@@ -139,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mineIndices = [];
             gameActive = true;
             firstClick = false; // Reset the first click flag
+            clickedCells = []; // Reset the clicked cells array
             document.getElementById('bet-btn').innerHTML = 'CASHOUT';
             document.getElementById('bet-btn').style.backgroundImage = 'radial-gradient(44% 44% at 49.36% 52%, #dba355 0%, #c4872e 100%)'; // Change button background
             document.getElementById('bet-btn').style.paddingTop = '0'; // Add padding-top style
@@ -151,39 +154,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             cells.forEach(function(cell) {
-                cell.style.backgroundImage = "url('img/field.png')";
+                cell.style.backgroundImage = "url('img/dark-field.png')";
             });
 
             // Display the initial cashout amount
-            document.getElementById('cashout-amount').textContent = `0.00 USD`;
+            document.getElementById('cashout-amount').textContent = `0.00 ${currencySymbol}`; // Use the selected currency symbol
             document.getElementById('cashout-amount').style.display = 'block'; // Show the cashout amount div
         }
-    });
-
-    // Event listener for cell clicks
-    document.querySelectorAll('.cell').forEach(function(cell, index) {
-        cell.addEventListener('click', function() {
-            if (!gameActive) return;
-
-            cell.classList.add('flipped');
-            setTimeout(() => {
-                if (mineIndices.includes(index)) {
-                    cell.style.backgroundImage = "url('img/bomb.png')";
-                    gameActive = false;
-                    handleMineHit(index); // Call handleMineHit when a mine is hit
-                } else {
-                    cell.style.backgroundImage = "url('img/star.png')";
-                    // Increase the coefficient by 15%
-                    currentCoefficient *= 1.15;
-                    document.getElementById('next-btn').textContent = `Next: ${currentCoefficient.toFixed(2)}x`;
-
-                    // Recalculate and display the updated cashout amount
-                    let betAmount = parseFloat(document.getElementById('bet-input').value);
-                    let cashoutAmount = betAmount * currentCoefficient;
-                    document.getElementById('cashout-amount').textContent = `${cashoutAmount.toFixed(2)} USD`;
-                }
-            }, 300); // Delay to allow the flip animation to complete
-        });
     });
 
     // Event listener for the random button

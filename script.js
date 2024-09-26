@@ -1,5 +1,3 @@
-// script.js
-
 document.getElementById('minus-btn').addEventListener('click', function() {
     let betInput = document.getElementById('bet-input');
     let currentValue = parseFloat(betInput.value);
@@ -56,7 +54,7 @@ document.getElementById('bet-btn').addEventListener('click', function() {
     }
 
     cells.forEach(function(cell) {
-        cell.style.backgroundImage = "url('img/field.png')";
+        cell.style.backgroundImage = "url('img/dark-field.png')"; // Change to dark-field.png
     });
 });
 
@@ -69,7 +67,7 @@ document.querySelectorAll('.cell').forEach(function(cell, index) {
             if (mineIndices.includes(index)) {
                 cell.style.backgroundImage = "url('img/bomb.png')";
                 gameActive = false;
-                revealAllCells();
+                revealAllCells(index);
             } else {
                 cell.style.backgroundImage = "url('img/star.png')";
             }
@@ -77,15 +75,16 @@ document.querySelectorAll('.cell').forEach(function(cell, index) {
     });
 });
 
-function revealAllCells() {
+function revealAllCells(hitIndex) {
     let cells = document.querySelectorAll('.cell');
     cells.forEach(function(cell, index) {
-        cell.classList.add('flipped');
         setTimeout(() => {
-            if (mineIndices.includes(index)) {
-                cell.style.backgroundImage = "url('img/bomb.png')";
-            } else {
-                cell.style.backgroundImage = "url('img/star.png')";
+            if (index !== hitIndex) {
+                if (mineIndices.includes(index)) {
+                    cell.style.backgroundImage = "url('img/opened-bomb.png')";
+                } else {
+                    cell.style.backgroundImage = "url('img/opened-star.png')";
+                }
             }
         }, 300); // Delay to allow the flip animation to complete
     });
