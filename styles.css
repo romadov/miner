@@ -8,6 +8,21 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+#progress-bar-container {
+    width: 100%;
+    background-color: #15171969;
+    height: 4px;
+    margin-bottom: .3em;
+    margin-top: 5px;
+}
+
+#progress-bar {
+    width: 0;
+    height: 100%;
+    background-color: #28a745 !important;
+    transition: width 0.5s ease; /* Add this line for smooth transition */
+}
+
 #game-container {
     position: relative;
     width: 80%;
@@ -19,8 +34,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    border-radius: 10px; /* Небольшой радиус для контейнера */
-    padding: 3px 0; /* Минимальные отступы сверху и снизу */
+    border-radius: 10px;
+    padding: 3px 0;
 }
 
 #cashout-amount {
@@ -40,6 +55,7 @@ body {
     padding-bottom: 3px;
     font-weight: bold;
     opacity: 0.8;
+    border-right: 4px;
 }
 
 .relative-block{
@@ -253,7 +269,6 @@ body {
     height: auto;
     padding: 10px;
     box-sizing: border-box;
-    border-top: 4px solid rgba(0, 0, 0, .3);
 }
 
 .cell {
@@ -602,13 +617,15 @@ input:checked + .slider:before {
     }
     .game-controls {
         position: absolute;
+        left: 0;
+        right: 0;
         bottom: 215px;
         width: 98%;
         display: flex;
         justify-content: center;
     }
     .top-banner {
-        width: 100%;
+        width: 96%;
         position: absolute;
         bottom: 0;
     }
@@ -674,5 +691,14 @@ input:checked + .slider:before {
     #dropdown-menu{
         bottom: 11% !important;
         left: 50% !important;
+    }
+    .cell{
+        width: 65px;
+        height: 53px;
+        background-image: url(img/field.png);
+        background-size: contain;
+        border-radius: 5px;
+        cursor: pointer;
+        background-repeat: no-repeat;
     }
 }

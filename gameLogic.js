@@ -26,6 +26,36 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     let currentCoefficient = 1.10; // Default coefficient
     let firstClick = false; // Flag to track the first click
+    let progressBar = document.getElementById('progress-bar');
+    let progress = 0;
+
+    document.querySelectorAll('.cell').forEach(function(cell, index) {
+        cell.addEventListener('click', function() {
+            if (!gameActive) return;
+
+            cell.classList.add('flipped');
+            setTimeout(() => {
+                if (mineIndices.includes(index)) {
+                    cell.style.backgroundImage = "url('img/bomb.png')";
+                    gameActive = false;
+                    handleMineHit(index);
+                } else {
+                    cell.style.backgroundImage = "url('img/star.png')";
+                    currentCoefficient *= 1.15;
+                    document.getElementById('next-btn').textContent = `Next: ${currentCoefficient.toFixed(2)}x`;
+
+                    let betAmount = parseFloat(document.getElementById('bet-input').value);
+                    let cashoutAmount = betAmount * currentCoefficient;
+                    document.getElementById('cashout-amount').textContent = `${cashoutAmount.toFixed(2)} USD`;
+
+                    // Update progress bar
+                    progress += 4.2;
+                    if (progress > 100) progress = 100;
+                    progressBar.style.width = `${progress}%`;
+                }
+            }, 300);
+        });
+    });
 
     // Function to update the total amount displayed
     function updateTotalAmount() {
@@ -109,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mineIndices = [];
             gameActive = true;
             firstClick = false; // Reset the first click flag
-            document.getElementById('bet-btn').innerHTML = 'Cashout';
+            document.getElementById('bet-btn').innerHTML = 'CASHOUT';
             document.getElementById('bet-btn').style.backgroundImage = 'radial-gradient(44% 44% at 49.36% 52%, #dba355 0%, #c4872e 100%)'; // Change button background
             document.getElementById('bet-btn').style.paddingTop = '0'; // Add padding-top style
 
