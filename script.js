@@ -1,3 +1,26 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const selectSelected = document.querySelector('.select-selected');
+    const selectItems = document.querySelectorAll('.select-items div');
+
+    // Set initial display with the word "mines"
+    const initialValue = selectSelected.getAttribute('data-value');
+    selectSelected.innerHTML = `mines: ${initialValue} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
+
+    selectItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            const display = this.getAttribute('data-display');
+            selectSelected.setAttribute('data-value', value);
+            selectSelected.setAttribute('data-display', display);
+            selectSelected.innerHTML = `mines: ${value} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
+        });
+    });
+
+    selectSelected.addEventListener('click', function() {
+        const display = this.getAttribute('data-display');
+        this.innerHTML = `${display} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
+    });
+});
 document.getElementById('minus-btn').addEventListener('click', function() {
     let betInput = document.getElementById('bet-input');
     let currentValue = parseFloat(betInput.value);
@@ -16,8 +39,8 @@ document.getElementById('dropdown-btn').addEventListener('click', function(event
     let dropdownMenu = document.getElementById('dropdown-menu');
     let dropdownBtn = document.getElementById('dropdown-btn');
     let rect = dropdownBtn.getBoundingClientRect();
-    dropdownMenu.style.left = `${rect.left + rect.width / 2 - 190}px`; // Move 20px to the left
-    dropdownMenu.style.bottom = `${window.innerHeight - rect.top - 65}px`; // Move lower
+    dropdownMenu.style.left = `${rect.left + rect.width / 2 - 290}px`; // Move 20px to the left
+    dropdownMenu.style.bottom = `${window.innerHeight - rect.top - 225}px`; // Move lower
     dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
     event.stopPropagation(); // Prevent the click event from bubbling up to the document
 });
