@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let cells = document.querySelectorAll('.cell');
         cells.forEach(function(cell, index) {
             setTimeout(() => {
+                cell.classList.add('flipped');
                 if (index !== hitIndex) {
                     if (mineIndices.includes(index)) {
                         cell.style.backgroundImage = "url('img/opened-bomb.png')";

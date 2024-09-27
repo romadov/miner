@@ -280,6 +280,27 @@ body {
     cursor: pointer; /* Add cursor pointer to indicate clickable cells */
 }
 
+.cell {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.cell.flipped {
+    transform: rotateY(180deg);
+}
+
+.cell .front, .cell .back {
+    backface-visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.cell .back {
+    transform: rotateY(180deg);
+}
+
 .mine-selection {
     display: flex;
     justify-content: space-between;
