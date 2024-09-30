@@ -26,7 +26,7 @@ body {
 #game-container {
     position: relative;
     width: 80%;
-    max-width: 960px;
+    max-width: 1024px;
     height: 83%;
     max-height: 540px;
     background-image: linear-gradient(-57deg, #0048dc 3%, #0781cc 85%) !important;
@@ -36,6 +36,30 @@ body {
     align-items: center;
     border-radius: 10px;
     padding: 3px 0;
+}
+
+#game-container::before {
+    content: '';
+    position: absolute;
+    left: -100px; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 259px;
+    height: 261px;
+    background-image: url('img/mines-star.svg');
+    background-size: cover;
+}
+
+#game-container::after {
+    content: '';
+    position: absolute;
+    right: -25px; /* Adjust as needed */
+    top: 45%;
+    transform: translateY(-50%);
+    width: 154px;
+    height: 305px;
+    background-image: url('img/mines-bomb.svg');
+    background-size: cover;
 }
 
 #cashout-btn {
@@ -247,7 +271,7 @@ body {
 #dropdown-menu {
     display: none;
     position: absolute;
-    bottom: 40px; /* Adjust based on the height of the bottom banner */
+    bottom: 60px; /* Adjust based on the height of the bottom banner */
     background: #032e49;
     border-color: #082130;
     color: #c6d6e0;
@@ -255,7 +279,7 @@ body {
     overflow: hidden;
     z-index: 1;
     width: 300px; /* Set width to 300px */
-    left: 50%; /* Center horizontally */
+    left: 33%; /* Center horizontally */
     transform: translateX(-50%); /* Center horizontally */
 }
 
@@ -312,8 +336,8 @@ body {
 }
 
 .cell {
-    width: 70px;
-    height: 53px;
+    width: 79px;
+    height: 60px;
     background-image: url('img/field.png');
     background-size: cover;
     border-radius: 5px;
@@ -365,7 +389,7 @@ body {
     background-color: #ffc107;
     color: #343a40;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 20px;
     cursor: pointer;
     font-size: 12px;
     height: 12px;
@@ -520,6 +544,8 @@ body {
 }
 
 #bet-btn .icon-play {
+    position: absolute;
+    left: 10%;
     margin-right: 10px; /* Space between icon and text */
 }
 
@@ -677,6 +703,22 @@ input:checked + .slider:before {
     padding-top: 3px;
 }
 
+#cashout-display{
+    display: none;
+    font-size: 13px;
+    color: #fff;
+    background-color: #15902d;
+    border: 1px solid #0e2d16;
+    margin-bottom: 0 !important;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 20px;
+    position: absolute;
+    right: 12%;
+}
+
 @media screen and (max-width: 670px) {
     #game-container {
         width: 100%;
@@ -780,15 +822,19 @@ input:checked + .slider:before {
         left: 50% !important;
     }
     .cell{
-        width: 55px;
-        height: 45px;
+        width: 75px;
+        height: 60px;
         background-image: url(img/field.png);
         background-size: contain;
         border-radius: 5px;
         cursor: pointer;
         background-repeat: no-repeat;
     }
-    .cashout-amount{
-        right: 32% !important;
+    #cashout-display{
+        right: 25% !important;
+    }
+
+    #game-container::after, #game-container::before{
+        display: none;
     }
 }

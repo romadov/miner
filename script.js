@@ -57,6 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const defaultValue = selectSelected.getAttribute('data-value');
     nextBtn.innerHTML = `Next: ${coefficients[defaultValue]}x`;
 
+    // Create a div element for displaying the cashout amount
+    const cashoutDisplay = document.createElement('div');
+    cashoutDisplay.id = 'cashout-display';
+    cashoutDisplay.style.color = '#fff';
+    currencyDisplay.parentNode.insertBefore(cashoutDisplay, currencyDisplay);
+
     // Toggle dropdown visibility
     selectSelected.addEventListener('click', function() {
         selectItems.classList.toggle('select-hide');
@@ -199,7 +205,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const cashoutValue = parseFloat(cashoutAmount.textContent);
         totalAmount += cashoutValue;
         localStorage.setItem('totalAmount', totalAmount.toFixed(2));
-        location.reload();
+
+        // Update and show the cashout display
+        cashoutDisplay.textContent = `+ ${cashoutValue.toFixed(2)} ${currencySymbol}`;
+        cashoutDisplay.style.display = 'block';
+
+        // Reload the page after 2 seconds
+        setTimeout(function() {
+            location.reload();
+        }, 2000);
     });
 
     // Toggle dropdown visibility
