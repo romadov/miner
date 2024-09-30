@@ -822,7 +822,7 @@ input:checked + .slider:before {
         left: 50% !important;
     }
     .cell{
-        width: 75px;
+        width: 65px;
         height: 60px;
         background-image: url(img/field.png);
         background-size: contain;

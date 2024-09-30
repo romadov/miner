@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     selectSelected.innerHTML = `mines: ${selectedMines} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
     betInput.value = lastBet.toFixed(2);
 
-    // Coefficient mapping
+    // Coefficient mapping based on probability
     const coefficients = {
         1: 1.01,
         2: 1.05,
