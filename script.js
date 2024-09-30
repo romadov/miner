@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
     betBtn.addEventListener('click', function() {
         const mineCount = parseInt(selectSelected.getAttribute('data-value'));
         const totalCells = cells.length;
+        const mineIndices = new Set();
 
         // Clear previous mines and set all cells to dark-field.png
         cells.forEach(cell => {
@@ -112,6 +113,17 @@ document.addEventListener('DOMContentLoaded', function() {
             cell.classList.remove('animate'); // Remove animation class
             cell.style.backgroundImage = "url('img/dark-field.png')";
             cell.style.pointerEvents = 'auto'; // Enable clicking on cells
+        });
+
+        // Randomly select cells to add the mines class
+        while (mineIndices.size < mineCount) {
+            const randomIndex = Math.floor(Math.random() * totalCells);
+            mineIndices.add(randomIndex);
+        }
+
+        // Add the mines class to the selected cells
+        mineIndices.forEach(index => {
+            cells[index].classList.add('mines');
         });
 
         // Disable bet input and mine selection
@@ -150,13 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
             progressBar.style.width = `${progress}%`;
             progressBar.style.backgroundColor = '#28a745';
 
-            // Randomly determine if the cell contains a mine
-            const mineCount = parseInt(selectSelected.getAttribute('data-value'));
-            const totalCells = cells.length;
-            const mineProbability = mineCount / totalCells;
-            const isMine = Math.random() < mineProbability;
-
-            if (isMine) {
+            if (this.classList.contains('mines')) {
                 // If the cell contains a mine, set background to bomb.png and stop the game
                 this.style.backgroundImage = "url('img/bomb.png')";
 
@@ -171,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     cell.classList.add('animate'); // Add animation class
                     if (!cell.classList.contains('flipped')) {
                         cell.classList.add('flipped'); // Add flipped class to all cells
-                        if (Math.random() < mineProbability) {
+                        if (cell.classList.contains('mines')) {
                             cell.style.backgroundImage = "url('img/opened-bomb.png')";
                         } else {
                             cell.style.backgroundImage = "url('img/opened-star.png')";
