@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const minesBtn = document.querySelector('.mines-btn');
     let progress = 0;
     const keypad = document.getElementById('keypad');
+    let isKeypadInput = false;
     const applyBtn = document.querySelector('.keypad-btn.apply-btn');
     let currentBet = parseFloat(betInput.value);
     let currentCoefficient = 1.1;
@@ -73,9 +74,18 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (this.classList.contains('delete-btn')) {
                 betInput.value = betInput.value.slice(0, -1);
             } else {
+                if (!isKeypadInput) {
+                    betInput.value = ''; // Clear the input field
+                    isKeypadInput = true;
+                }
                 betInput.value += this.textContent;
             }
         });
+    });
+
+    // Reset the flag when the input field loses focus
+    betInput.addEventListener('blur', function() {
+        isKeypadInput = false;
     });
 
     // Restrict input to digits only
@@ -109,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set default value on page load
     const defaultValue = selectSelected.getAttribute('data-value');
-    nextBtn.innerHTML = `Next: ${coefficients[defaultValue]}x`;
+    nextBtn.innerHTML = `Next: ${coefficients[defaultValue].toFixed(2)}x`;
 
     // Create a div element for displaying the cashout amount
     const cashoutDisplay = document.createElement('div');
