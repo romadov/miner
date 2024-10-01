@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         // Show the game container
         gameContainer.style.display = 'flex';
-    }, 1000); // Adjust the timeout as needed
+    }, 500); // Adjust the timeout as needed
 });
 document.addEventListener('DOMContentLoaded', function() {
     const selectSelected = document.querySelector('.select-selected');
