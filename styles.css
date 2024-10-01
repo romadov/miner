@@ -731,7 +731,7 @@ input:checked + .slider:before {
         width: 100%;
         max-height: 100vh;
         height: 100vh;
-        display: flex;
+        display: none;
         flex-direction: column;
         justify-content: space-between;
         padding-left: 5px;
@@ -829,8 +829,8 @@ input:checked + .slider:before {
         left: 50% !important;
     }
     .cell{
-        width: 65px;
-        height: 60px;
+        width: 58px;
+        height: 54px;
         background-image: url(img/field.png);
         background-size: contain;
         border-radius: 5px;
@@ -838,7 +838,7 @@ input:checked + .slider:before {
         background-repeat: no-repeat;
     }
     #cashout-display{
-        right: 25% !important;
+        right: 29% !important;
     }
 
     #game-container::after, #game-container::before{
