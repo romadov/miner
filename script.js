@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdownItems = document.querySelectorAll('.dropdown-item');
     const currencyDisplay = document.querySelector('.currency');
     let progress = 0;
+    const keypad = document.getElementById('keypad');
+    const applyBtn = document.querySelector('.keypad-btn.apply-btn');
     let currentBet = parseFloat(betInput.value);
     let currentCoefficient = 1.1;
+    let isFirstClick = true; // Flag to check if it's the first cell click
 
     // Load data from localStorage
     let totalAmount = parseFloat(localStorage.getItem('totalAmount')) || 3000.00;
@@ -28,6 +31,26 @@ document.addEventListener('DOMContentLoaded', function() {
     selectSelected.setAttribute('data-value', selectedMines);
     selectSelected.innerHTML = `mines: ${selectedMines} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
     betInput.value = lastBet.toFixed(2);
+
+    betInput.addEventListener('focus', function() {
+        keypad.style.display = 'block';
+    });
+
+    // Handle keypad button clicks
+    document.querySelectorAll('.keypad-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            if (this.classList.contains('apply-btn')) {
+                // Apply button clicked, hide keypad
+                keypad.style.display = 'none';
+            } else if (this.classList.contains('delete-btn')) {
+                // Delete button clicked, remove last character
+                betInput.value = betInput.value.slice(0, -1);
+            } else {
+                // Append clicked button value to bet input
+                betInput.value += this.textContent;
+            }
+        });
+    });
 
     // Coefficient mapping based on probability
     const coefficients = {
@@ -77,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update the selected value and display
             selectSelected.setAttribute('data-value', value);
             selectSelected.innerHTML = `mines: ${value} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
-            nextBtn.innerHTML = `Next: ${coefficients[value]}x`;
+            nextBtn.innerHTML = `Next: ${coefficients[value].toFixed(2)}x`;
 
             // Hide the dropdown
             selectItems.classList.add('select-hide');
@@ -144,12 +167,14 @@ document.addEventListener('DOMContentLoaded', function() {
         betBtn.style.display = 'none';
         cashoutBtn.style.display = 'flex';
 
-        // Calculate and display the initial cashout amount
-        currentBet = parseFloat(betInput.value);
-        cashoutAmount.textContent = `${(currentBet * currentCoefficient).toFixed(2)} ${currencySymbol}`;
+        // Set initial cashout amount to 0.00
+        cashoutAmount.textContent = `0.00 ${currencySymbol}`;
 
         // Save last bet to localStorage
         localStorage.setItem('lastBet', currentBet);
+
+        // Reset the first click flag
+        isFirstClick = true;
     });
 
     // Add click event listener to each cell
@@ -192,13 +217,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 // If the cell does not contain a mine, set background to star.png
                 this.style.backgroundImage = "url('img/star.png')";
 
-                // Update the cashout amount and next coefficient
-                currentCoefficient *= 1.15; // Increase the coefficient by 15%
+                // Start calculating the cashout amount on the first click
+                if (isFirstClick) {
+                    currentCoefficient = 1.1; // Reset the coefficient
+                    isFirstClick = false;
+                } else {
+                    currentCoefficient *= 1.15; // Increase the coefficient by 15%
+                }
+
+                // Update the cashout amount
                 cashoutAmount.textContent = `${(currentBet * currentCoefficient).toFixed(2)} ${currencySymbol}`;
                 nextBtn.innerHTML = `Next: ${currentCoefficient.toFixed(2)}x`; // Update the Next button
             }
         });
     });
+
+    // Function to reveal all cells
+    function revealAllCells() {
+        cells.forEach(cell => {
+            if (!cell.classList.contains('flipped')) {
+                cell.style.pointerEvents = 'none'; // Disable further clicks
+                cell.classList.add('flipped'); // Add flipped class to all cells
+                if (cell.classList.contains('mines')) {
+                    cell.style.backgroundImage = "url('img/opened-bomb.png')";
+                } else {
+                    cell.style.backgroundImage = "url('img/opened-star.png')";
+                }
+            }
+            cell.classList.add('animate'); // Add animation class to all cells
+        });
+    }
 
     // Add event listener to the Cash Out button
     cashoutBtn.addEventListener('click', function() {
@@ -209,6 +257,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update and show the cashout display
         cashoutDisplay.textContent = `+ ${cashoutValue.toFixed(2)} ${currencySymbol}`;
         cashoutDisplay.style.display = 'block';
+
+        // Reveal all cells
+        revealAllCells();
 
         // Reload the page after 2 seconds
         setTimeout(function() {
