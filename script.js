@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         gameContainer.style.display = 'flex';
     }, 500); // Adjust the timeout as needed
 });
+
 document.addEventListener('DOMContentLoaded', function() {
     const selectSelected = document.querySelector('.select-selected');
     const selectItems = document.querySelector('.select-items');
@@ -231,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentBet = parseFloat(betInput.value);
         totalAmount -= currentBet;
         localStorage.setItem('totalAmount', totalAmount.toFixed(2));
-        currencyDisplay.innerHTML = `${totalAmount.toFixed(2)} <span class="symbol">${currencySymbol}</span>`;
+        currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
 
         // Set initial cashout amount to 0.00
         cashoutAmount.textContent = `0.00 ${currencySymbol}`;
