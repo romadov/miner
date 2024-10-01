@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const gameContainer = document.getElementById('game-container');
+
+    // Simulate loading numbers (replace this with your actual loading logic)
+    setTimeout(function() {
+        // Show the game container
+        gameContainer.style.display = 'flex';
+    }, 1000); // Adjust the timeout as needed
+});
+document.addEventListener('DOMContentLoaded', function() {
     const selectSelected = document.querySelector('.select-selected');
     const selectItems = document.querySelector('.select-items');
     const nextBtn = document.getElementById('next-btn');
