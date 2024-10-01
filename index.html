@@ -19,34 +19,34 @@
             How to Play?
         </button>
         <span class="cashout-amount" id="cashout-amount-display" style="position: absolute; font-weight: bold; right: 12%; color: green; display: none;"></span>
-        <span class="currency">3,000.00 <span class="symbol">USD</span></span>
+        <span class="currency">10,000.00 <span class="symbol">INR</span></span>
         <img src="img/menu.svg" alt="Menu" class="menu-icon">
     </div>
     <div class="mob-padding">
         <div class="mine-selection">
             <div class="custom-select">
-                <div class="select-selected select-arrow-active" data-value="3" data-display="mines: 3">3 <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon"></div>
+                <div class="select-selected select-arrow-active" data-value="3" data-display="Mines: 3">3 <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon"></div>
                 <div class="select-items select-hide">
-                    <div data-value="1" data-display="mines: 1">1</div>
-                    <div data-value="2" data-display="mines: 2">2</div>
-                    <div data-value="3" data-display="mines: 3" class="selected">3</div>
-                    <div data-value="4" data-display="mines: 4">4</div>
-                    <div data-value="5" data-display="mines: 5">5</div>
-                    <div data-value="6" data-display="mines: 6">6</div>
-                    <div data-value="7" data-display="mines: 7">7</div>
-                    <div data-value="8" data-display="mines: 8">8</div>
-                    <div data-value="9" data-display="mines: 9">9</div>
-                    <div data-value="10" data-display="mines: 10">10</div>
-                    <div data-value="11" data-display="mines: 11">11</div>
-                    <div data-value="12" data-display="mines: 12">12</div>
-                    <div data-value="13" data-display="mines: 13">13</div>
-                    <div data-value="14" data-display="mines: 14">14</div>
-                    <div data-value="15" data-display="mines: 15">15</div>
-                    <div data-value="16" data-display="mines: 16">16</div>
-                    <div data-value="17" data-display="mines: 17">17</div>
-                    <div data-value="18" data-display="mines: 18">18</div>
-                    <div data-value="19" data-display="mines: 19">19</div>
-                    <div data-value="20" data-display="mines: 20">20</div>
+                    <div data-value="1" data-display="Mines: 1">1</div>
+                    <div data-value="2" data-display="Mines: 2">2</div>
+                    <div data-value="3" data-display="Mines: 3" class="selected">3</div>
+                    <div data-value="4" data-display="Mines: 4">4</div>
+                    <div data-value="5" data-display="Mines: 5">5</div>
+                    <div data-value="6" data-display="Mines: 6">6</div>
+                    <div data-value="7" data-display="Mines: 7">7</div>
+                    <div data-value="8" data-display="Mines: 8">8</div>
+                    <div data-value="9" data-display="Mines: 9">9</div>
+                    <div data-value="10" data-display="Mines: 10">10</div>
+                    <div data-value="11" data-display="Mines: 11">11</div>
+                    <div data-value="12" data-display="Mines: 12">12</div>
+                    <div data-value="13" data-display="Mines: 13">13</div>
+                    <div data-value="14" data-display="Mines: 14">14</div>
+                    <div data-value="15" data-display="Mines: 15">15</div>
+                    <div data-value="16" data-display="Mines: 16">16</div>
+                    <div data-value="17" data-display="Mines: 17">17</div>
+                    <div data-value="18" data-display="Mines: 18">18</div>
+                    <div data-value="19" data-display="Mines: 19">19</div>
+                    <div data-value="20" data-display="Mines: 20">20</div>
                 </div>
             </div>
             <button class="next-btn" id="next-btn">Next: 1.10x</button>
@@ -97,8 +97,8 @@
         <div class="bottom-banner__flex">
         <div class="bet-controls">
             <div class="bottom-banner__text">
-            <label for="bet-input" id="bet-label">Bet USD</label>
-            <input type="text" id="bet-input" readonly value="0.30">
+            <label for="bet-input" id="bet-label">Bet INR</label>
+            <input type="text" id="bet-input" value="0.30">
             </div>
             <div id="keypad" class="keypad">
                 <div class="keypad-row">
@@ -150,7 +150,7 @@
             </div>
         </div>
         <div id="dropdown-menu">
-            <div class="dropdown-header">Bet USD</div>
+            <div class="dropdown-header">Bet INR</div>
             <div class="dropdown-content">
                 <div class="dropdown-item">0.10</div>
                 <div class="dropdown-item">0.20</div>
@@ -175,7 +175,7 @@
 <script src="gameLogic.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const currencySymbol = localStorage.getItem('currencySymbol') || 'USD';
+        const currencySymbol = localStorage.getItem('currencySymbol') || 'INR';
         document.querySelectorAll('.currency .symbol').forEach(function(symbolElement) {
             symbolElement.textContent = currencySymbol;
         });

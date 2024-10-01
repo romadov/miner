@@ -13,23 +13,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const cashoutAmount = document.getElementById('cashout-amount');
     const dropdownItems = document.querySelectorAll('.dropdown-item');
     const currencyDisplay = document.querySelector('.currency');
+    const autoGameControl = document.querySelector('.auto-game-control');
+    const minesBtn = document.querySelector('.mines-btn');
     let progress = 0;
     const keypad = document.getElementById('keypad');
     const applyBtn = document.querySelector('.keypad-btn.apply-btn');
     let currentBet = parseFloat(betInput.value);
     let currentCoefficient = 1.1;
     let isFirstClick = true; // Flag to check if it's the first cell click
+    const betLabel = document.getElementById('bet-label');
+    let previousValue = betInput.value;
+
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
+    }
 
     // Load data from localStorage
-    let totalAmount = parseFloat(localStorage.getItem('totalAmount')) || 3000.00;
+    let totalAmount = parseFloat(localStorage.getItem('totalAmount')) || 10000.00; // Set initial balance to 10,000.00
     let selectedMines = localStorage.getItem('selectedMines') || '3';
-    let lastBet = parseFloat(localStorage.getItem('lastBet')) || 0.30;
-    const currencySymbol = localStorage.getItem('currencySymbol') || 'USD';
+    let lastBet = parseFloat(localStorage.getItem('lastBet')) || 7.00; // Set default bet input value to 7.00
+    const currencySymbol = localStorage.getItem('currencySymbol') || 'INR';
+
+    betInput.value = formatCurrency(lastBet);
+
+    betInput.addEventListener('focus', function() {
+        previousValue = betInput.value;
+        betInput.value = '';
+    });
+
+    betInput.addEventListener('blur', function() {
+        if (betInput.value === '') {
+            betInput.value = previousValue;
+        } else {
+            betInput.value = formatCurrency(parseFloat(betInput.value));
+        }
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!betInput.contains(event.target) && !keypad.contains(event.target)) {
+            keypad.style.display = 'none';
+        }
+    });
 
     // Update UI with loaded data
-    currencyDisplay.innerHTML = `${totalAmount.toFixed(2)} <span class="symbol">${currencySymbol}</span>`;
+    currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
     selectSelected.setAttribute('data-value', selectedMines);
-    selectSelected.innerHTML = `mines: ${selectedMines} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
+    selectSelected.innerHTML = `Mines: ${selectedMines} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
     betInput.value = lastBet.toFixed(2);
 
     betInput.addEventListener('focus', function() {
@@ -40,16 +69,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.keypad-btn').forEach(function(button) {
         button.addEventListener('click', function() {
             if (this.classList.contains('apply-btn')) {
-                // Apply button clicked, hide keypad
                 keypad.style.display = 'none';
             } else if (this.classList.contains('delete-btn')) {
-                // Delete button clicked, remove last character
                 betInput.value = betInput.value.slice(0, -1);
             } else {
-                // Append clicked button value to bet input
                 betInput.value += this.textContent;
             }
         });
+    });
+
+    // Restrict input to digits only
+    betInput.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9.]/g, '');
     });
 
     // Coefficient mapping based on probability
@@ -99,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Update the selected value and display
             selectSelected.setAttribute('data-value', value);
-            selectSelected.innerHTML = `mines: ${value} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
+            selectSelected.innerHTML = `Mines: ${value} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
             nextBtn.innerHTML = `Next: ${coefficients[value].toFixed(2)}x`;
 
             // Hide the dropdown
@@ -138,6 +169,16 @@ document.addEventListener('DOMContentLoaded', function() {
             cell.style.pointerEvents = 'auto'; // Enable clicking on cells
         });
 
+        // Add opacity class to bet label
+        betLabel.classList.add('opacity-50');
+        cashoutBtn.classList.add('opacity-50');
+
+        // Add opacity class to auto-game-control
+        autoGameControl.classList.add('opacity-50');
+
+        // Add opacity class to mines-btn
+        minesBtn.classList.add('opacity-50');
+
         // Randomly select cells to add the mines class
         while (mineIndices.size < mineCount) {
             const randomIndex = Math.floor(Math.random() * totalCells);
@@ -167,6 +208,12 @@ document.addEventListener('DOMContentLoaded', function() {
         betBtn.style.display = 'none';
         cashoutBtn.style.display = 'flex';
 
+        // Deduct the bet amount from the total amount
+        currentBet = parseFloat(betInput.value);
+        totalAmount -= currentBet;
+        localStorage.setItem('totalAmount', totalAmount.toFixed(2));
+        currencyDisplay.innerHTML = `${totalAmount.toFixed(2)} <span class="symbol">${currencySymbol}</span>`;
+
         // Set initial cashout amount to 0.00
         cashoutAmount.textContent = `0.00 ${currencySymbol}`;
 
@@ -182,6 +229,9 @@ document.addEventListener('DOMContentLoaded', function() {
         cell.addEventListener('click', function() {
             this.classList.add('flipped'); // Add the flipped class
 
+            // Remove opacity class from cashout button
+            cashoutBtn.classList.remove('opacity-50');
+
             // Update progress bar
             progress = Math.min(progress + 4, 100);
             progressBar.style.width = `${progress}%`;
@@ -191,24 +241,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // If the cell contains a mine, set background to bomb.png and stop the game
                 this.style.backgroundImage = "url('img/bomb.png')";
 
-                // Deduct the bet amount from the total amount
-                totalAmount -= currentBet;
-                localStorage.setItem('totalAmount', totalAmount.toFixed(2));
-                currencyDisplay.innerHTML = `${totalAmount.toFixed(2)} <span class="symbol">${currencySymbol}</span>`;
-
                 // Disable further clicks on cells and add animation class
                 cells.forEach(cell => {
                     cell.style.pointerEvents = 'none';
-                    cell.classList.add('animate'); // Add animation class
-                    if (!cell.classList.contains('flipped')) {
-                        cell.classList.add('flipped'); // Add flipped class to all cells
-                        if (cell.classList.contains('mines')) {
-                            cell.style.backgroundImage = "url('img/opened-bomb.png')";
-                        } else {
-                            cell.style.backgroundImage = "url('img/opened-star.png')";
-                        }
-                    }
+                    cell.classList.add('animate');
                 });
+
+                // Reveal all cells
+                revealAllCells();
+
                 // Reload the page after 3 seconds
                 setTimeout(function() {
                     location.reload();
@@ -219,10 +260,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Start calculating the cashout amount on the first click
                 if (isFirstClick) {
-                    currentCoefficient = 1.1; // Reset the coefficient
+                    currentCoefficient = coefficients[defaultValue];
                     isFirstClick = false;
                 } else {
-                    currentCoefficient *= 1.15; // Increase the coefficient by 15%
+                    currentCoefficient *= 1.1;
                 }
 
                 // Update the cashout amount
