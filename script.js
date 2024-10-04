@@ -3,12 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Simulate loading numbers (replace this with your actual loading logic)
     setTimeout(function() {
-        // Show the game container
         gameContainer.style.display = 'flex';
-    }, 500); // Adjust the timeout as needed
-});
+    }, 500);
 
-document.addEventListener('DOMContentLoaded', function() {
     const selectSelected = document.querySelector('.select-selected');
     const selectItems = document.querySelector('.select-items');
     const nextBtn = document.getElementById('next-btn');
@@ -31,18 +28,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const applyBtn = document.querySelector('.keypad-btn.apply-btn');
     let currentBet = parseFloat(betInput.value);
     let currentCoefficient = 1.1;
-    let isFirstClick = true; // Flag to check if it's the first cell click
+    let isFirstClick = true;
     const betLabel = document.getElementById('bet-label');
     let previousValue = betInput.value;
+
+    // Retrieve mine click position from localStorage
+    const mineClickPosition = parseInt(localStorage.getItem('mineClickPosition')) || 1;
+    let clickCount = 0;
 
     function formatCurrency(value) {
         return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
     }
 
     // Load data from localStorage
-    let totalAmount = parseFloat(localStorage.getItem('totalAmount')) || 10000.00; // Set initial balance to 10,000.00
+    let totalAmount = parseFloat(localStorage.getItem('totalAmount')) || 10000.00;
     let selectedMines = localStorage.getItem('selectedMines') || '3';
-    let lastBet = parseFloat(localStorage.getItem('lastBet')) || 7.00; // Set default bet input value to 7.00
+    let lastBet = parseFloat(localStorage.getItem('lastBet')) || 7.00;
     const currencySymbol = localStorage.getItem('currencySymbol') || 'INR';
 
     betInput.value = formatCurrency(lastBet);
@@ -66,6 +67,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    function getRandomWithProbability(probability) {
+        return Math.random() < probability;
+    }
+
     // Update UI with loaded data
     currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
     selectSelected.setAttribute('data-value', selectedMines);
@@ -84,10 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (this.classList.contains('delete-btn')) {
                 betInput.value = betInput.value.slice(0, -1);
             } else {
-                if (!isKeypadInput) {
-                    betInput.value = ''; // Clear the input field
-                    isKeypadInput = true;
-                }
                 betInput.value += this.textContent;
             }
         });
@@ -184,20 +185,10 @@ document.addEventListener('DOMContentLoaded', function() {
         cells.forEach(cell => {
             cell.classList.remove('mines');
             cell.classList.remove('flipped');
-            cell.classList.remove('animate'); // Remove animation class
+            cell.classList.remove('animate');
             cell.style.backgroundImage = "url('img/dark-field.png')";
-            cell.style.pointerEvents = 'auto'; // Enable clicking on cells
+            cell.style.pointerEvents = 'auto';
         });
-
-        // Add opacity class to bet label
-        betLabel.classList.add('opacity-50');
-        cashoutBtn.classList.add('opacity-50');
-
-        // Add opacity class to auto-game-control
-        autoGameControl.classList.add('opacity-50');
-
-        // Add opacity class to mines-btn
-        minesBtn.classList.add('opacity-50');
 
         // Randomly select cells to add the mines class
         while (mineIndices.size < mineCount) {
@@ -205,10 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
             mineIndices.add(randomIndex);
         }
 
-        // Add the mines class to the selected cells
-        mineIndices.forEach(index => {
-            cells[index].classList.add('mines');
-        });
+        // Store mine indices in localStorage
+        localStorage.setItem('mineIndices', JSON.stringify([...mineIndices]));
 
         // Disable bet input and mine selection
         betInput.disabled = true;
@@ -242,12 +231,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Reset the first click flag
         isFirstClick = true;
+        clickCount = 0;
     });
 
     // Add click event listener to each cell
-    cells.forEach(function(cell) {
+    cells.forEach(function(cell, index) {
         cell.addEventListener('click', function() {
-            this.classList.add('flipped'); // Add the flipped class
+            clickCount++;
+
+            this.classList.add('flipped');
 
             // Remove opacity class from cashout button
             cashoutBtn.classList.remove('opacity-50');
@@ -257,84 +249,79 @@ document.addEventListener('DOMContentLoaded', function() {
             progressBar.style.width = `${progress}%`;
             progressBar.style.backgroundColor = '#28a745';
 
-            if (this.classList.contains('mines')) {
-                // If the cell contains a mine, set background to bomb.png and stop the game
+            // Retrieve mine indices from localStorage
+            let mineIndices = JSON.parse(localStorage.getItem('mineIndices'));
+
+            // Place mine on the specified click if not already placed
+            if (clickCount === mineClickPosition && !mineIndices.includes(index)) {
+                mineIndices.push(index);
+                localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
+            }
+
+            if (mineIndices.includes(index)) {
+                this.classList.add('mines');
                 this.style.backgroundImage = "url('img/bomb.png')";
 
-                // Disable further clicks on cells and add animation class
                 cells.forEach(cell => {
                     cell.style.pointerEvents = 'none';
                     cell.classList.add('animate');
                 });
 
-                // Reveal all cells
                 revealAllCells();
 
-                // Reload the page after 3 seconds
                 setTimeout(function() {
                     location.reload();
                 }, 3000);
             } else {
-                // If the cell does not contain a mine, set background to star.png
                 this.style.backgroundImage = "url('img/star.png')";
 
-                // Start calculating the cashout amount on the first click
                 if (isFirstClick) {
-                    currentCoefficient = coefficients[defaultValue];
                     isFirstClick = false;
+                    currentCoefficient = coefficients[selectedMines];
                 } else {
-                    currentCoefficient *= 1.1;
+                    currentCoefficient *= coefficients[selectedMines];
                 }
 
-                // Update the cashout amount
                 cashoutAmount.textContent = `${(currentBet * currentCoefficient).toFixed(2)} ${currencySymbol}`;
-                nextBtn.innerHTML = `Next: ${currentCoefficient.toFixed(2)}x`; // Update the Next button
+                nextBtn.innerHTML = `Next: ${currentCoefficient.toFixed(2)}x`;
             }
         });
     });
 
-    // Function to reveal all cells
     function revealAllCells() {
-        cells.forEach(cell => {
-            if (!cell.classList.contains('flipped')) {
-                cell.style.pointerEvents = 'none'; // Disable further clicks
-                cell.classList.add('flipped'); // Add flipped class to all cells
-                if (cell.classList.contains('mines')) {
-                    cell.style.backgroundImage = "url('img/opened-bomb.png')";
-                } else {
-                    cell.style.backgroundImage = "url('img/opened-star.png')";
-                }
+        const mineIndices = JSON.parse(localStorage.getItem('mineIndices'));
+        cells.forEach((cell, index) => {
+            if (mineIndices.includes(index) && !cell.classList.contains('flipped')) {
+                cell.style.pointerEvents = 'none';
+                cell.classList.add('flipped');
+                cell.style.backgroundImage = "url('img/real_bomb.png')";
+                cell.classList.add('animate');
+            } else if (!cell.classList.contains('flipped')) {
+                cell.style.backgroundImage = "url('img/opened-star.png')";
             }
-            cell.classList.add('animate'); // Add animation class to all cells
         });
     }
 
-    // Add event listener to the Cash Out button
     cashoutBtn.addEventListener('click', function() {
         const cashoutValue = parseFloat(cashoutAmount.textContent);
         totalAmount += cashoutValue;
         localStorage.setItem('totalAmount', totalAmount.toFixed(2));
 
-        // Update and show the cashout display
         cashoutDisplay.textContent = `+ ${cashoutValue.toFixed(2)} ${currencySymbol}`;
         cashoutDisplay.style.display = 'block';
 
-        // Reveal all cells
         revealAllCells();
 
-        // Reload the page after 2 seconds
         setTimeout(function() {
             location.reload();
         }, 2000);
     });
 
-    // Toggle dropdown visibility
     dropdownBtn.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent the click event from propagating
+        event.stopPropagation();
         dropdownMenu.classList.toggle('show');
     });
 
-    // Update bet input value when a dropdown item is clicked
     dropdownItems.forEach(function(item) {
         item.addEventListener('click', function() {
             betInput.value = this.textContent;
@@ -342,21 +329,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Increment bet input value by 0.10
     plusBtn.addEventListener('click', function() {
         let currentValue = parseFloat(betInput.value);
         currentValue = (currentValue + 0.10).toFixed(2);
         betInput.value = currentValue;
     });
 
-    // Decrement bet input value by 0.10
     minusBtn.addEventListener('click', function() {
         let currentValue = parseFloat(betInput.value);
         currentValue = Math.max(0, (currentValue - 0.10).toFixed(2));
         betInput.value = currentValue;
     });
 
-    // Close the dropdown if clicked outside
     document.addEventListener('click', function(event) {
         if (!dropdownBtn.contains(event.target) && !dropdownMenu.contains(event.target)) {
             dropdownMenu.classList.remove('show');
