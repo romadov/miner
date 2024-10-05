@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 revealAllCells();
 
                 setTimeout(function() {
-                    location.reload();
+                    resetGame();
                 }, 2000);
             } else {
                 this.style.backgroundImage = "url('img/star.png')";
@@ -280,6 +280,51 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function resetGame() {
+        // Reset game state variables
+        clickCount = 0;
+        isFirstClick = true;
+        currentCoefficient = 1.1;
+        progress = 0;
+
+        // Reset UI elements
+        cells.forEach(cell => {
+            cell.classList.remove('flipped', 'mines', 'animate');
+            cell.style.backgroundImage = '';
+            cell.style.pointerEvents = 'none';
+        });
+
+        progressBar.style.width = '0%';
+        progressBar.style.backgroundColor = '#28a745';
+
+        betInput.disabled = false;
+        dropdownBtn.disabled = false;
+        minusBtn.disabled = false;
+        plusBtn.disabled = false;
+        selectSelected.style.pointerEvents = 'auto';
+
+        betInput.classList.remove('disabled');
+        dropdownBtn.classList.remove('disabled');
+        minusBtn.classList.remove('disabled');
+        plusBtn.classList.remove('disabled');
+        selectSelected.classList.remove('disabled');
+
+        betBtn.style.display = 'flex';
+        cashoutBtn.style.display = 'none';
+
+        cashoutAmount.textContent = `0.00 ${currencySymbol}`;
+        nextBtn.innerHTML = `Next: ${coefficients[selectSelected.getAttribute('data-value')].toFixed(2)}x`;
+
+        // Clear mine indices from localStorage
+        localStorage.removeItem('mineIndices');
+
+        // Reset currency display
+        currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
+
+        // Hide cashout display
+        cashoutDisplay.style.display = 'none';
+    }
+
     cashoutBtn.addEventListener('click', function() {
         const cashoutValue = parseFloat(cashoutAmount.textContent);
         totalAmount += cashoutValue;
@@ -291,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
         revealAllCells();
 
         setTimeout(function() {
-            location.reload();
+            resetGame();
         }, 2000);
     });
 
