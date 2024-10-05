@@ -187,6 +187,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
         isFirstClick = true;
         clickCount = 0;
+
+        console.log('mineClickPosition:', mineClickPosition); // Debug message
+
+        if (mineClickPosition === 100) {
+            const mineCount = parseInt(selectSelected.getAttribute('data-value'));
+            const totalCells = cells.length;
+            let mineIndices = [];
+
+            while (mineIndices.length < mineCount) {
+                const randomIndex = Math.floor(Math.random() * totalCells);
+                if (!mineIndices.includes(randomIndex)) {
+                    mineIndices.push(randomIndex);
+                }
+            }
+
+            localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
+            console.log('Mine indices generated after bet click:', mineIndices); // Log the mine indices
+        }
     });
 
     cells.forEach(function(cell, index) {
@@ -203,9 +221,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let mineIndices = JSON.parse(localStorage.getItem('mineIndices')) || [];
 
-            if (clickCount === mineClickPosition) {
+            if (mineClickPosition !== 100 && clickCount === mineClickPosition) {
                 const mineCount = parseInt(selectSelected.getAttribute('data-value'));
                 const totalCells = cells.length;
+
+                // Ensure the first mine is the clicked cell
+                mineIndices = [index];
 
                 while (mineIndices.length < mineCount) {
                     const randomIndex = Math.floor(Math.random() * totalCells);
@@ -218,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Mine indices generated:', mineIndices); // Log the mine indices
             }
 
-            if (clickCount >= mineClickPosition && mineIndices.includes(index)) {
+            if (mineIndices.includes(index)) {
                 this.classList.add('mines');
                 this.style.backgroundImage = "url('img/bomb.png')";
 
