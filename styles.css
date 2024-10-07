@@ -20,7 +20,7 @@ body {
     width: 0;
     height: 100%;
     background-color: #28a745 !important;
-    transition: width 0.5s ease; /* Add this line for smooth transition */
+    transition: width 0.5s ease;
 }
 
 #game-container {
@@ -41,7 +41,7 @@ body {
 #game-container::before {
     content: '';
     position: absolute;
-    left: -100px; /* Adjust as needed */
+    left: -100px;
     top: 50%;
     transform: translateY(-50%);
     width: 259px;
@@ -53,7 +53,7 @@ body {
 #game-container::after {
     content: '';
     position: absolute;
-    right: -25px; /* Adjust as needed */
+    right: -25px;
     top: 45%;
     transform: translateY(-50%);
     width: 154px;
@@ -77,26 +77,6 @@ body {
     align-items: center;
     justify-content: center;
 }
-
-/*#cashout-amount {*/
-/*    display: none;*/
-/*    position: absolute;*/
-/*    bottom: 10%;*/
-/*    left: 20%;*/
-/*    right: 0;*/
-/*    margin: 0 auto;*/
-/*    text-align: center;*/
-/*    background: rgba(0, 0, 0, .41);*/
-/*    width: 70px;*/
-/*    padding-left: 5px;*/
-/*    padding-right: 5px;*/
-/*    padding-top: 3px;*/
-/*    color: white;*/
-/*    padding-bottom: 3px;*/
-/*    font-weight: bold;*/
-/*    opacity: 0.8;*/
-/*    border-right: 4px;*/
-/*}*/
 
 #cashout-amount{
     min-width: 48px;
@@ -153,7 +133,7 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between icon and text */
+    gap: 10px;
     font-size: 12px;
     height: 22px;
     width: 150px;
@@ -189,9 +169,9 @@ body {
     height: 40px;
     border-radius: 50%;
     text-align: center;
-    display: flex; /* Add flexbox */
-    align-items: center; /* Center items vertically */
-    justify-content: center; /* Center items horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .reload-btn img {
@@ -228,8 +208,7 @@ body {
     display: none;
     position: absolute;
     width: 234px;
-    padding: 3px;
-    bottom: 60px; /* Adjust based on the height of the bottom banner */
+    bottom: 60px;
     background-color: #0267a5;
     border-radius: 5px;
     padding: 10px;
@@ -267,22 +246,22 @@ body {
 
 .disabled {
     opacity: 0.65;
-    pointer-events: none; /* Ensure the elements are not clickable */
+    pointer-events: none;
 }
 
 #dropdown-menu {
     display: none;
     position: absolute;
-    bottom: 60px; /* Adjust based on the height of the bottom banner */
+    bottom: 60px;
     background: #032e49;
     border-color: #082130;
     color: #c6d6e0;
     border-radius: 5px;
     overflow: hidden;
     z-index: 1;
-    width: 300px; /* Set width to 300px */
-    left: 33%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
+    width: 300px;
+    left: 33%;
+    transform: translateX(-50%);
 }
 
 #dropdown-menu.show {
@@ -299,9 +278,9 @@ body {
 
 .dropdown-content {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr); /* Two columns */
-    gap: 5px; /* Space between items */
-    padding: 10px; /* Padding around the content */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    padding: 10px;
 }
 
 .dropdown-item {
@@ -312,7 +291,7 @@ body {
     border: 1px solid rgba(0, 0, 0, .5);
     border-radius: 20px;
     cursor: pointer;
-    text-align: center; /* Center text */
+    text-align: center;
     background-color: #094164 !important;
 }
 
@@ -343,18 +322,8 @@ body {
     background-image: url('img/field.png');
     background-size: cover;
     border-radius: 5px;
-    cursor: pointer; /* Add cursor pointer to indicate clickable cells */
+    cursor: pointer;
 }
-
-/*.cell {*/
-/*    transition: transform 0.6s;*/
-/*    transform-style: preserve-3d;*/
-/*    perspective: 1000px;*/
-/*}*/
-
-/*.cell.flipped {*/
-/*    transform: rotateY(180deg);*/
-/*}*/
 
 .cell.animate {
     transition: transform 0.6s;
@@ -404,7 +373,7 @@ body {
     color: white;
     border: 1px solid rgba(0, 0, 0, .5);
     border-radius: 20px;
-    padding: 0 20px; /* Adjust padding to fit the height */
+    padding: 0 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -412,17 +381,17 @@ body {
     gap: 5px;
     box-shadow: inset 1px 1px #fff1cd33;
     width: 120px;
-    height: 20px; /* Set height to 24px */
-    line-height: normal; /* Reset line-height */
+    height: 20px;
+    line-height: normal;
     font-size: 12px;
     position: relative;
     margin-right: 15px;
-    overflow-y: hidden; /* Initially hide overflow */
+    overflow-y: hidden;
 }
 
 #mine-count option {
-    background-color: #0267a5; /* Match the background color */
-    color: white; /* Match the text color */
+    background-color: #0267a5;
+    color: white;
 }
 
 .custom-select {
@@ -442,14 +411,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; /* Add this line */
+    position: relative;
 }
 
 .arrow-icon {
-    width: 12px; /* Adjust size as needed */
-    height: 12px; /* Adjust size as needed */
-    position: absolute; /* Add this line */
-    right: 10px; /* Position it 10px from the right */
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 10px;
 }
 
 .select-items {
@@ -487,8 +456,8 @@ body {
 }
 
 #mine-count:focus {
-    max-height: 100px; /* Set max height for the dropdown */
-    overflow-y: auto; /* Enable vertical scroll */
+    max-height: 100px;
+    overflow-y: auto;
 }
 
 .menu-icon {
@@ -508,7 +477,7 @@ body {
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
-    font-size: 16px; /* Adjust font size for the arrow */
+    font-size: 16px;
 }
 
 .bet-controls {
@@ -535,13 +504,13 @@ body {
     background-image: radial-gradient(circle at 50% 50%, #61a503, #2d7500 94%);
     border-radius: 20px;
     height: 50px;
-    width: 242px; /* Set width to 300px */
+    width: 242px;
     position: relative;
-    padding: 10px 20px; /* Add padding for better appearance */
-    cursor: pointer; /* Add pointer cursor */
-    display: flex; /* Flexbox for icon and text alignment */
-    align-items: center; /* Center items vertically */
-    justify-content: center; /* Center items horizontally */
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 14px;
     color: #fff;
     text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
@@ -552,7 +521,7 @@ body {
 #bet-btn .icon-play {
     position: absolute;
     left: 10%;
-    margin-right: 10px; /* Space between icon and text */
+    margin-right: 10px;
 }
 
 .game-controls {
@@ -582,7 +551,7 @@ body {
 .auto-game-control {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between icon, switch, and text */
+    gap: 10px;
     background: rgba(0, 0, 0, .3);
     border-radius: 13px;
     height: 30px;
@@ -645,31 +614,31 @@ input:checked + .slider:before {
 }
 
 .mines-btn {
-    background-color: #0267a5; /* Set background color to blue */
-    color: white; /* Set text color to white */
+    background-color: #0267a5;
+    color: white;
     border: 1px solid rgba(0, 0, 0, .5);
-    border-radius: 20px; /* Optional: Add border radius */
-    padding: 10px 20px; /* Add padding */
-    cursor: pointer; /* Add pointer cursor */
-    display: flex; /* Flexbox for icon and text alignment */
-    align-items: center; /* Center items vertically */
-    justify-content: center; /* Center items horizontally */
-    gap: 5px; /* Space between text and icon */
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
     box-shadow: inset 1px 1px #fff1cd33;
     width: 120px;
     height: 24px;
     text-transform: uppercase;
     font-size: 12px;
-    position: relative; /* Make the button a positioning context */
+    position: relative;
     margin-right: 15px;
 }
 
 .mines-btn .arrow-icon {
-    width: 10px; /* Adjust width as needed */
-    height: 10px; /* Adjust height as needed */
-    fill: white; /* Ensure the arrow color is white */
-    position: absolute; /* Position the icon absolutely */
-    right: 10px; /* Align the icon to the right edge */
+    width: 10px;
+    height: 10px;
+    fill: white;
+    position: absolute;
+    right: 10px;
 }
 
 .bottom-banner__text{
@@ -804,19 +773,19 @@ input:checked + .slider:before {
         padding-right: 0;
     }
     .how-to-play {
-        width: 25px; /* Adjust width to fit the icon */
-        padding: 10px; /* Adjust padding as needed */
+        width: 25px;
+        padding: 10px;
         font-size: 0;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     .how-to-play::after {
-        content: none; /* Remove the text */
+        content: none;
     }
     .how-to-play img {
         padding-left: 9px;
-        margin: 0; /* Remove any margin around the icon */
+        margin: 0;
     }
     #bet-input{
         height: 20px;
@@ -829,7 +798,7 @@ input:checked + .slider:before {
         left: 50% !important;
     }
     .cell{
-        width: 65px;
+        width: 61px;
         height: 50px;
         background-image: url(img/field.png);
         background-size: contain;

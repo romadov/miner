@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveBtn = document.getElementById('save-btn');
     const clearBtn = document.getElementById('clear-btn');
 
-    // Load the saved currency symbol and mine click position from localStorage
     const savedCurrency = localStorage.getItem('currencySymbol');
     const savedMineClickPosition = localStorage.getItem('mineClickPosition');
     if (savedCurrency) {
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
         mineClickPositionInput.value = savedMineClickPosition;
     }
 
-    // Save the selected currency symbol and mine click position to localStorage
     saveBtn.addEventListener('click', function() {
         const selectedCurrency = currencySelect.value;
         const mineClickPosition = mineClickPositionInput.value;
@@ -23,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
         alert(`Settings saved: Currency symbol - ${selectedCurrency}, Mine click position - ${mineClickPosition}`);
     });
 
-    // Clear the currency symbol, mine click position, and other data from localStorage and reset the fields
     clearBtn.addEventListener('click', function() {
         localStorage.removeItem('currencySymbol');
         localStorage.removeItem('totalAmount');
@@ -34,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('mineClickPosition');
         document.querySelector('.currency .symbol').textContent = 'INR';
         document.querySelector('.currency').textContent = '0.00 INR';
-        mineClickPositionInput.value = 1; // Reset to default
+        mineClickPositionInput.value = 1;
         alert('Currency symbol, mine click position, and other settings cleared and reset to default.');
     });
 });

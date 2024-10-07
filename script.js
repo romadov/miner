@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         isFirstClick = true;
         clickCount = 0;
 
-        console.log('mineClickPosition:', mineClickPosition); // Debug message
+        console.log('mineClickPosition:', mineClickPosition);
 
         if (mineClickPosition === 100) {
             const mineCount = parseInt(selectSelected.getAttribute('data-value'));
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
-            console.log('Mine indices generated after bet click:', mineIndices); // Log the mine indices
+            console.log('Mine indices generated after bet click:', mineIndices);
         }
     });
 
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
-                console.log('Mine indices generated:', mineIndices); // Log the mine indices
+                console.log('Mine indices generated:', mineIndices);
             }
 
             if (mineIndices.includes(index)) {
@@ -281,13 +281,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function resetGame() {
-        // Reset game state variables
         clickCount = 0;
         isFirstClick = true;
         currentCoefficient = 1.1;
         progress = 0;
 
-        // Reset UI elements
         cells.forEach(cell => {
             cell.classList.remove('flipped', 'mines', 'animate');
             cell.style.backgroundImage = '';
@@ -315,13 +313,10 @@ document.addEventListener('DOMContentLoaded', function() {
         cashoutAmount.textContent = `0.00 ${currencySymbol}`;
         nextBtn.innerHTML = `Next: ${coefficients[selectSelected.getAttribute('data-value')].toFixed(2)}x`;
 
-        // Clear mine indices from localStorage
         localStorage.removeItem('mineIndices');
 
-        // Reset currency display
         currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
 
-        // Hide cashout display
         cashoutDisplay.style.display = 'none';
     }
 
