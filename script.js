@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function revealAllCells() {
-        const mineIndices = JSON.parse(localStorage.getItem('mineIndices'));
+        let mineIndices = JSON.parse(localStorage.getItem('mineIndices')) || [];
         cells.forEach((cell, index) => {
             if (mineIndices.includes(index) && !cell.classList.contains('flipped')) {
                 cell.style.pointerEvents = 'none';
@@ -332,6 +332,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         cashoutDisplay.textContent = `+ ${cashoutValue.toFixed(2)} ${currencySymbol}`;
         cashoutDisplay.style.display = 'block';
+
+        // Generate mine indices if not already generated
+        let mineIndices = JSON.parse(localStorage.getItem('mineIndices')) || [];
+        if (mineIndices.length === 0) {
+            const mineCount = parseInt(selectSelected.getAttribute('data-value'));
+            const totalCells = cells.length;
+
+            while (mineIndices.length < mineCount) {
+                const randomIndex = Math.floor(Math.random() * totalCells);
+                if (!mineIndices.includes(randomIndex) && !cells[randomIndex].classList.contains('flipped')) {
+                    mineIndices.push(randomIndex);
+                }
+            }
+
+            localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
+            console.log('Mine indices generated during cashout:', mineIndices); // Log the mine indices
+        }
 
         revealAllCells();
 
