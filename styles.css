@@ -829,8 +829,8 @@ input:checked + .slider:before {
         left: 50% !important;
     }
     .cell{
-        width: 59px;
-        height: 44px;
+        width: 68px;
+        height: 50px;
         background-image: url(img/field.png);
         background-size: contain;
         border-radius: 5px;
