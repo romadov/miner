@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 while (mineIndices.length < mineCount) {
                     const randomIndex = Math.floor(Math.random() * totalCells);
-                    if (!mineIndices.includes(randomIndex)) {
+                    if (!mineIndices.includes(randomIndex) && !cells[randomIndex].classList.contains('flipped')) {
                         mineIndices.push(randomIndex);
                     }
                 }
