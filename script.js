@@ -188,6 +188,11 @@ document.addEventListener('DOMContentLoaded', function() {
         isFirstClick = true;
         clickCount = 0;
 
+        // Set the initial coefficient based on the selected number of mines
+        const selectedMines = parseInt(selectSelected.getAttribute('data-value'));
+        currentCoefficient = coefficients[selectedMines];
+        nextBtn.innerHTML = `Next: ${currentCoefficient.toFixed(2)}x`;
+
         console.log('mineClickPosition:', mineClickPosition);
 
         if (mineClickPosition === 100) {

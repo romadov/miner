@@ -26,7 +26,7 @@ body {
 #game-container {
     position: relative;
     width: 80%;
-    max-width: 1024px;
+    max-width: 960px;
     height: 83%;
     max-height: 540px;
     background-image: linear-gradient(-57deg, #0048dc 3%, #0781cc 85%) !important;
