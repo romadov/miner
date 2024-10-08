@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     isFirstClick = false;
                 }
 
-                currentCoefficient += 0.1;
+                currentCoefficient *= 1.1;
                 cashoutAmount.textContent = `${(currentBet * currentCoefficient).toFixed(2)} ${currencySymbol}`;
                 nextBtn.innerHTML = `Next: ${currentCoefficient.toFixed(2)}x`;
             }
