@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
         progress = 0;
 
         cells.forEach(cell => {
-            cell.classList.remove('flipped', 'mines', 'animate');
+            cell.classList.remove('flipped', 'mines', 'animate', 'open-cell');
             cell.style.backgroundImage = '';
             cell.style.pointerEvents = 'none';
         });
