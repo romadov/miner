@@ -325,6 +325,10 @@ body {
     cursor: pointer;
 }
 
+.open-cell {
+    background-image: url('img/dark-field.png');
+}
+
 .cell.animate {
     transition: transform 0.6s;
     transform-style: preserve-3d;
