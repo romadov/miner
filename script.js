@@ -305,6 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cell.classList.add('animate');
             } else if (!cell.classList.contains('flipped')) {
                 cell.style.backgroundImage = "url('img/opened-star.png')";
+                cell.classList.add('animate');
             }
         });
     }
@@ -347,6 +348,18 @@ document.addEventListener('DOMContentLoaded', function() {
         currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
 
         cashoutDisplay.style.display = 'none';
+
+        // Remove opacity of control-btn
+        const controlBtn = document.querySelector('.control-btn');
+        if (controlBtn) {
+            controlBtn.style.removeProperty('opacity');
+        }
+
+// Remove opacity of auto-game-control
+        const autoGameControl = document.querySelector('.auto-game-control');
+        if (autoGameControl) {
+            autoGameControl.style.removeProperty('opacity');
+        }
     }
 
     cashoutBtn.addEventListener('click', function() {

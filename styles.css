@@ -339,6 +339,11 @@ body {
     transform: rotateY(180deg);
 }
 
+.cell.animate{
+    transform: rotateY(180deg);
+}
+
+
 .cell .front, .cell .back {
     backface-visibility: hidden;
     position: absolute;
