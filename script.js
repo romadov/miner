@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         betBtn.style.display = 'none';
         cashoutBtn.style.display = 'flex';
+        cashoutBtn.classList.add('dark'); // Add the .dark class
 
         currentBet = parseFloat(betInput.value);
         totalAmount -= currentBet;
@@ -189,18 +190,16 @@ document.addEventListener('DOMContentLoaded', function() {
         currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
 
         cashoutAmount.textContent = `0.00 ${currencySymbol}`;
+        cashoutBtn.style.opacity = '0.65'; // Set initial opacity
 
         localStorage.setItem('lastBet', currentBet);
 
         isFirstClick = true;
         clickCount = 0;
 
-        // Set the initial coefficient based on the selected number of mines
         const selectedMines = parseInt(selectSelected.getAttribute('data-value'));
         currentCoefficient = getCoefficient(selectedMines, 1);
         nextBtn.innerHTML = `Next: ${currentCoefficient.toFixed(2)}x`;
-
-        console.log('mineClickPosition:', mineClickPosition);
 
         if (mineClickPosition === 100) {
             const mineCount = parseInt(selectSelected.getAttribute('data-value'));
@@ -215,11 +214,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
-            console.log('Mine indices generated after bet click:', mineIndices);
         }
 
-        // Add the 'open-cell' class to all cells
         cells.forEach(cell => cell.classList.add('open-cell'));
+
+        // Set opacity of auto-game-control
+        const autoGameControl = document.querySelector('.auto-game-control');
+        if (autoGameControl) {
+            autoGameControl.style.opacity = '0.65';
+        }
+
+        // Set opacity of random-btn
+        const randomBtn = document.querySelector('.control-btn');
+        if (randomBtn) {
+            randomBtn.style.opacity = '1';
+        }
     });
 
     cells.forEach(function(cell, index) {
@@ -227,8 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clickCount++;
 
             this.classList.add('flipped');
-
-            cashoutBtn.classList.remove('opacity-50');
+            cashoutBtn.classList.remove('dark'); // Remove the .dark class
 
             progress = Math.min(progress + 4, 100);
             progressBar.style.width = `${progress}%`;
@@ -240,7 +248,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const mineCount = parseInt(selectSelected.getAttribute('data-value'));
                 const totalCells = cells.length;
 
-                // Ensure the first mine is the clicked cell
                 mineIndices = [index];
 
                 while (mineIndices.length < mineCount) {
@@ -251,7 +258,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
-                console.log('Mine indices generated:', mineIndices);
             }
 
             if (mineIndices.includes(index)) {
@@ -275,8 +281,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 currentCoefficient = getCoefficient(parseInt(selectSelected.getAttribute('data-value')), clickCount + 1);
-                cashoutAmount.textContent = `${(currentBet * currentCoefficient).toFixed(2)} ${currencySymbol}`;
+                const cashoutValue = currentBet * currentCoefficient;
+                cashoutAmount.textContent = `${cashoutValue.toFixed(2)} ${currencySymbol}`;
                 nextBtn.innerHTML = `Next: ${currentCoefficient.toFixed(2)}x`;
+
+                // Update opacity based on cashout value
+                if (cashoutValue === 0) {
+                    cashoutBtn.style.opacity = '0.65';
+                } else {
+                    cashoutBtn.style.opacity = '1';
+                }
             }
         });
     });
