@@ -144,6 +144,12 @@ document.addEventListener('DOMContentLoaded', function() {
         item.addEventListener('click', function() {
             const value = this.getAttribute('data-value');
 
+            selectItems.querySelectorAll('div').forEach(function(el) {
+                el.classList.remove('selected');
+            });
+
+            this.classList.add('selected');
+
             selectSelected.setAttribute('data-value', value);
             selectSelected.innerHTML = `Mines: ${value} <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">`;
             nextBtn.innerHTML = `Next: ${getCoefficient(value, 1).toFixed(2)}x`;
@@ -174,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         plusBtn.disabled = true;
         selectSelected.style.pointerEvents = 'none';
 
+        betLabel.classList.add('disabled');
         betInput.classList.add('disabled');
         dropdownBtn.classList.add('disabled');
         minusBtn.classList.add('disabled');
@@ -232,68 +239,72 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     cells.forEach(function(cell, index) {
-        cell.addEventListener('click', function() {
-            clickCount++;
+    cell.addEventListener('click', function() {
+        clickCount++;
 
-            this.classList.add('flipped');
-            cashoutBtn.classList.remove('dark'); // Remove the .dark class
+        this.classList.add('flipped');
+        cashoutBtn.classList.remove('dark');
 
-            progress = Math.min(progress + 4, 100);
-            progressBar.style.width = `${progress}%`;
-            progressBar.style.backgroundColor = '#28a745';
+        const totalCells = 25;
+        const selectedMines = parseInt(selectSelected.getAttribute('data-value'));
+        const freeCells = totalCells - selectedMines;
+        const progressIncrement = 100 / freeCells;
 
-            let mineIndices = JSON.parse(localStorage.getItem('mineIndices')) || [];
+        progress = Math.min(progress + progressIncrement, 100);
+        progressBar.style.width = `${progress}%`;
+        progressBar.style.backgroundColor = '#28a745';
 
-            if (mineClickPosition !== 100 && clickCount === mineClickPosition) {
-                const mineCount = parseInt(selectSelected.getAttribute('data-value'));
-                const totalCells = cells.length;
+        let mineIndices = JSON.parse(localStorage.getItem('mineIndices')) || [];
 
-                mineIndices = [index];
+        if (mineClickPosition !== 100 && clickCount === mineClickPosition) {
+            const mineCount = parseInt(selectSelected.getAttribute('data-value'));
+            const totalCells = cells.length;
 
-                while (mineIndices.length < mineCount) {
-                    const randomIndex = Math.floor(Math.random() * totalCells);
-                    if (!mineIndices.includes(randomIndex) && !cells[randomIndex].classList.contains('flipped')) {
-                        mineIndices.push(randomIndex);
-                    }
+            mineIndices = [index];
+
+            while (mineIndices.length < mineCount) {
+                const randomIndex = Math.floor(Math.random() * totalCells);
+                if (!mineIndices.includes(randomIndex) && !cells[randomIndex].classList.contains('flipped')) {
+                    mineIndices.push(randomIndex);
                 }
-
-                localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
             }
 
-            if (mineIndices.includes(index)) {
-                this.classList.add('mines');
-                this.style.backgroundImage = "url('img/bomb.png')";
+            localStorage.setItem('mineIndices', JSON.stringify(mineIndices));
+        }
 
-                cells.forEach(cell => {
-                    cell.style.pointerEvents = 'none';
-                });
+        if (mineIndices.includes(index)) {
+            this.classList.add('mines');
+            this.style.backgroundImage = "url('img/bomb.png')";
 
-                revealAllCells();
+            cells.forEach(cell => {
+                cell.style.pointerEvents = 'none';
+            });
 
-                setTimeout(function() {
-                    resetGame();
-                }, 2000);
+            revealAllCells();
+
+            setTimeout(function() {
+                resetGame();
+            }, 2000);
+        } else {
+            this.style.backgroundImage = "url('img/star.png')";
+
+            if (isFirstClick) {
+                isFirstClick = false;
+            }
+
+            currentCoefficient = getCoefficient(parseInt(selectSelected.getAttribute('data-value')), clickCount);
+            const cashoutValue = currentBet * currentCoefficient;
+            cashoutAmount.textContent = `${cashoutValue.toFixed(2)} ${currencySymbol}`;
+            nextBtn.innerHTML = `Next: ${getCoefficient(parseInt(selectSelected.getAttribute('data-value')), clickCount + 1).toFixed(2)}x`;
+
+            if (cashoutValue === 0) {
+                cashoutBtn.style.opacity = '0.65';
             } else {
-                this.style.backgroundImage = "url('img/star.png')";
-
-                if (isFirstClick) {
-                    isFirstClick = false;
-                }
-
-                currentCoefficient = getCoefficient(parseInt(selectSelected.getAttribute('data-value')), clickCount + 1);
-                const cashoutValue = currentBet * currentCoefficient;
-                cashoutAmount.textContent = `${cashoutValue.toFixed(2)} ${currencySymbol}`;
-                nextBtn.innerHTML = `Next: ${currentCoefficient.toFixed(2)}x`;
-
-                // Update opacity based on cashout value
-                if (cashoutValue === 0) {
-                    cashoutBtn.style.opacity = '0.65';
-                } else {
-                    cashoutBtn.style.opacity = '1';
-                }
+                cashoutBtn.style.opacity = '1';
             }
-        });
+        }
     });
+});
 
     function revealAllCells() {
         let mineIndices = JSON.parse(localStorage.getItem('mineIndices')) || [];
@@ -336,6 +347,7 @@ document.addEventListener('DOMContentLoaded', function() {
         minusBtn.classList.remove('disabled');
         plusBtn.classList.remove('disabled');
         selectSelected.classList.remove('disabled');
+        betLabel.classList.remove('disabled');
 
         betBtn.style.display = 'flex';
         cashoutBtn.style.display = 'none';
