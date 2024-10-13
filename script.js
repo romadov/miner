@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     betInput.addEventListener('focus', function() {
         previousValue = betInput.value;
         betInput.value = '';
+        console.log('Focused value:', parseFloat(betInput.value));
     });
 
     betInput.addEventListener('blur', function() {
@@ -95,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     betInput.addEventListener('input', function() {
         this.value = this.value.replace(/[^0-9.]/g, '');
+        console.log('Input value:', parseFloat(betInput.value));
     });
 
     const coefficients = {
@@ -191,11 +193,20 @@ document.addEventListener('DOMContentLoaded', function() {
         cashoutBtn.style.display = 'flex';
         cashoutBtn.classList.add('dark'); // Add the .dark class
 
-        currentBet = parseFloat(betInput.value);
+        // Parse the current bet and total amount correctly
+        currentBet = parseFloat(betInput.value.replace(/,/g, ''));
+        totalAmount = parseFloat(currencyDisplay.textContent.replace(/[^0-9.-]+/g, ''));
+
+        // Subtract the bet amount from the total amount
         totalAmount -= currentBet;
+
+        // Store the updated total amount in localStorage
         localStorage.setItem('totalAmount', totalAmount.toFixed(2));
+
+        // Update the displayed total amount
         currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
 
+        // Update the cashout amount display
         cashoutAmount.textContent = `0.00 ${currencySymbol}`;
         cashoutBtn.style.opacity = '0.65'; // Set initial opacity
 
@@ -294,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             currentCoefficient = getCoefficient(parseInt(selectSelected.getAttribute('data-value')), clickCount);
             const cashoutValue = currentBet * currentCoefficient;
-            cashoutAmount.textContent = `${cashoutValue.toFixed(2)} ${currencySymbol}`;
+            cashoutAmount.textContent = `${formatCurrency(cashoutValue)} ${currencySymbol}`;
             nextBtn.innerHTML = `Next: ${getCoefficient(parseInt(selectSelected.getAttribute('data-value')), clickCount + 1).toFixed(2)}x`;
 
             if (cashoutValue === 0) {
@@ -375,11 +386,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     cashoutBtn.addEventListener('click', function() {
-        const cashoutValue = parseFloat(cashoutAmount.textContent);
+        const cashoutValue = parseFloat(cashoutAmount.textContent.replace(/[^0-9.-]+/g, ''));
         totalAmount += cashoutValue;
         localStorage.setItem('totalAmount', totalAmount.toFixed(2));
 
-        cashoutDisplay.textContent = `+ ${cashoutValue.toFixed(2)} ${currencySymbol}`;
+        cashoutDisplay.textContent = `+ ${formatCurrency(cashoutValue)} ${currencySymbol}`;
         cashoutDisplay.style.display = 'block';
 
         // Generate mine indices if not already generated
