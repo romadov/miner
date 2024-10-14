@@ -39,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
     }
 
+    function changeOpacity(element, opacity) {
+        element.style.opacity = opacity;
+    }
+
     let totalAmount = parseFloat(localStorage.getItem('totalAmount')) || 10000.00;
     let selectedMines = localStorage.getItem('selectedMines') || '3';
     let lastBet = parseFloat(localStorage.getItem('lastBet')) || 7.00;
@@ -419,6 +423,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
             resetGame();
         }, 2000);
+
+        changeOpacity(randomBtn, '0.6');
+        changeOpacity(this, '0.6');
     });
 
     dropdownBtn.addEventListener('click', function(event) {
