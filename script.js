@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isFirstClick = true;
     const betLabel = document.getElementById('bet-label');
     let previousValue = betInput.value;
+    const randomBtn = document.querySelector('.control-btn');
 
     const mineClickPosition = parseInt(localStorage.getItem('mineClickPosition')) || 1;
     let clickCount = 0;
@@ -67,6 +68,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getRandomWithProbability(probability) {
         return Math.random() < probability;
+    }
+
+    function temporarilyChangeOpacity(element, duration) {
+        element.style.opacity = '0.65';
+        setTimeout(function() {
+            element.style.opacity = '1';
+        }, duration);
     }
 
     currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
@@ -243,7 +251,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Set opacity of random-btn
-        const randomBtn = document.querySelector('.control-btn');
         if (randomBtn) {
             randomBtn.style.opacity = '1';
         }
@@ -308,11 +315,8 @@ document.addEventListener('DOMContentLoaded', function() {
             cashoutAmount.textContent = `${formatCurrency(cashoutValue)} ${currencySymbol}`;
             nextBtn.innerHTML = `Next: ${getCoefficient(parseInt(selectSelected.getAttribute('data-value')), clickCount + 1).toFixed(2)}x`;
 
-            if (cashoutValue === 0) {
-                cashoutBtn.style.opacity = '0.65';
-            } else {
-                cashoutBtn.style.opacity = '1';
-            }
+            temporarilyChangeOpacity(cashoutBtn, 100);
+            temporarilyChangeOpacity(randomBtn, 100);
         }
     });
 });
