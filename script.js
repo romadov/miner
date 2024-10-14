@@ -39,6 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
     }
 
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && keypad.style.display === 'block') {
+            let inputValue = parseFloat(betInput.value.replace(/[^0-9.]/g, ''));
+            betInput.value = formatCurrency(inputValue.toFixed(2));
+            keypad.style.display = 'none';
+        }
+    });
+
     function changeOpacity(element, opacity) {
         element.style.opacity = opacity;
     }
@@ -93,6 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.keypad-btn').forEach(function(button) {
         button.addEventListener('click', function() {
             if (this.classList.contains('apply-btn')) {
+                let inputValue = parseFloat(betInput.value.replace(/[^0-9.]/g, '')).toFixed(2);
+                betInput.value = formatCurrency(inputValue);
                 keypad.style.display = 'none';
             } else if (this.classList.contains('delete-btn')) {
                 betInput.value = betInput.value.slice(0, -1);
@@ -447,4 +457,30 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdownMenu.classList.remove('show');
         }
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const currencyDisplay = document.querySelector('.currency');
+    const mobileSumDisplay = document.querySelector('.mobile-bottom-block__right__sum');
+
+    function updateMobileSumDisplay() {
+        const currencyValue = currencyDisplay.textContent.replace('INR', '').trim();
+        mobileSumDisplay.innerHTML = `<span class="symbol">&#8377;</span> ${currencyValue}`;
+    }
+
+    // Initial update
+    updateMobileSumDisplay();
+
+    // Update the mobile sum display whenever the currency display is updated
+    const observer = new MutationObserver(updateMobileSumDisplay);
+    observer.observe(currencyDisplay, { childList: true, subtree: true });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const mobileBottomBlock = document.querySelector('.mobile-bottom-block');
+        if (mobileBottomBlock) {
+            mobileBottomBlock.style.display = 'flex';
+        }
+    }, 500); // Delay in milliseconds (2000ms = 2 seconds)
 });

@@ -76,6 +76,13 @@ body {
     width: 240px;
     align-items: center;
     justify-content: center;
+    outline: none;
+}
+
+#cashout-btn:focus,
+#cashout-btn:active {
+    outline: none; /* Remove outline on focus and active */
+    box-shadow: none; /* Remove box-shadow on focus and active */
 }
 
 #cashout-amount{
@@ -371,7 +378,7 @@ body {
     border: none;
     padding: 9px 15px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     height: 11px;
     line-height: 1px;
     border-radius: 12px;
@@ -525,6 +532,7 @@ body {
     text-shadow: 0 1px 0 rgba(0, 0, 0, .5);
     box-shadow: 3px 3px 6px #020b1a80, inset -1px -1px #00000052, inset 1px 1px #fff1cd33;
     border: 2px solid rgba(0, 0, 0, .9);
+    outline: none;
 }
 
 #bet-btn .icon-play {
@@ -714,7 +722,64 @@ input:checked + .slider:before {
     right: 12%;
 }
 
+.mobile-bottom-block{
+    display: none;
+}
+
 @media screen and (max-width: 670px) {
+
+    .mobile-bottom-block__left{
+        display: flex;
+        align-items: center;
+    }
+
+    .mobile-bottom-block__right__sum .symbol{
+        color: white;
+        opacity: 1;
+        margin-right: 5px;
+    }
+
+    .mobile-bottom-block__right{
+        display: flex;
+    }
+
+    .mobile-bottom-block__right__btn{
+        background: #30b866;
+        color: white;
+        border-radius: 7px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+
+    .mobile-bottom-block__right__sum{
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .mobile-bottom-block {
+        display: none; /* Initially hide the element */
+        color: white;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .arrow-icon-left {
+        transform: rotate(90deg);
+        margin-right: 5px;
+    }
+
+    body{
+        flex-direction: column;
+        width: 97.5%;
+        margin: 0 auto;
+    }
     #game-container {
         width: 100%;
         max-height: 100vh;
@@ -818,7 +883,7 @@ input:checked + .slider:before {
     }
     .cell{
         width: 61px;
-        height: 50px;
+        height: 48px;
         background-image: url(img/field.png);
         background-size: contain;
         border-radius: 5px;
@@ -835,5 +900,8 @@ input:checked + .slider:before {
 
     .bottom-banner__text{
         margin-right: 0;
+    }
+    .open-cell {
+        background-image: url('img/dark-field.png');
     }
 }
