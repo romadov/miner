@@ -590,12 +590,10 @@ body {
     height: 0;
 }
 
-/* Change cursor to pointer */
 .bet-btn, #cashout-btn {
     cursor: pointer;
 }
 
-/* Visual click effect */
 .bet-btn:active, #cashout-btn:active {
     transform: scale(0.10);
     transform: translateY(1px);

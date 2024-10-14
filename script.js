@@ -203,24 +203,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         betBtn.style.display = 'none';
         cashoutBtn.style.display = 'flex';
-        cashoutBtn.classList.add('dark'); // Add the .dark class
+        cashoutBtn.classList.add('dark');
 
-        // Parse the current bet and total amount correctly
         currentBet = parseFloat(betInput.value.replace(/,/g, ''));
         totalAmount = parseFloat(currencyDisplay.textContent.replace(/[^0-9.-]+/g, ''));
 
-        // Subtract the bet amount from the total amount
         totalAmount -= currentBet;
 
-        // Store the updated total amount in localStorage
         localStorage.setItem('totalAmount', totalAmount.toFixed(2));
 
-        // Update the displayed total amount
         currencyDisplay.innerHTML = `${formatCurrency(totalAmount)} <span class="symbol">${currencySymbol}</span>`;
 
-        // Update the cashout amount display
         cashoutAmount.textContent = `0.00 ${currencySymbol}`;
-        cashoutBtn.style.opacity = '0.65'; // Set initial opacity
+        cashoutBtn.style.opacity = '0.65';
 
         localStorage.setItem('lastBet', currentBet);
 
@@ -248,13 +243,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         cells.forEach(cell => cell.classList.add('open-cell'));
 
-        // Set opacity of auto-game-control
         const autoGameControl = document.querySelector('.auto-game-control');
         if (autoGameControl) {
             autoGameControl.style.opacity = '0.65';
         }
 
-        // Set opacity of random-btn
         if (randomBtn) {
             randomBtn.style.opacity = '1';
         }
@@ -380,13 +373,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         cashoutDisplay.style.display = 'none';
 
-        // Remove opacity of control-btn
         const controlBtn = document.querySelector('.control-btn');
         if (controlBtn) {
             controlBtn.style.removeProperty('opacity');
         }
 
-// Remove opacity of auto-game-control
         const autoGameControl = document.querySelector('.auto-game-control');
         if (autoGameControl) {
             autoGameControl.style.removeProperty('opacity');
@@ -401,7 +392,6 @@ document.addEventListener('DOMContentLoaded', function() {
         cashoutDisplay.textContent = `+ ${formatCurrency(cashoutValue)} ${currencySymbol}`;
         cashoutDisplay.style.display = 'block';
 
-        // Generate mine indices if not already generated
         let mineIndices = JSON.parse(localStorage.getItem('mineIndices')) || [];
         if (mineIndices.length === 0) {
             const mineCount = parseInt(selectSelected.getAttribute('data-value'));
