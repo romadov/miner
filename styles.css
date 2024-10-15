@@ -823,11 +823,9 @@ input:checked + .slider:before {
     }
     .top-banner {
         width: 96%;
-        height: auto;
         position: absolute;
         bottom: 0;
         background: transparent;
-        padding-bottom: 5px;
     }
     .bottom-banner {
         width: 99%;
