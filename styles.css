@@ -897,8 +897,8 @@ input:checked + .slider:before {
         width: 270px;
     }
     .cell{
-        width: 70px;
-        height: 55px;
+        width: auto;
+        height: auto;
         background-image: url(img/field.png);
         background-size: contain;
         border-radius: 5px;
@@ -931,8 +931,5 @@ input:checked + .slider:before {
     }
     .mine-selection{
         margin: 1px 0;
-    }
-    #minesweeper-field{
-        display: none;
     }
 }
