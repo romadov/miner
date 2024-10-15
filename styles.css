@@ -932,4 +932,7 @@ input:checked + .slider:before {
     .mine-selection{
         margin: 1px 0;
     }
+    .mob-padding{
+        display: none;
+    }
 }
