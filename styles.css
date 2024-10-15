@@ -829,9 +829,10 @@ input:checked + .slider:before {
     }
     .bottom-banner {
         width: 99%;
-        height: 170px;
+        height: auto;
         flex-direction: column;
         margin-bottom: 30px;
+        padding-bottom: 20px;
     }
     .bottom-banner__flex {
         flex-direction: column;
