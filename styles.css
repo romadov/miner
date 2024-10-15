@@ -832,7 +832,7 @@ input:checked + .slider:before {
         height: auto;
         flex-direction: column;
         margin-bottom: 30px;
-        padding-bottom: 20px;
+        padding-bottom: 15px;
     }
     .bottom-banner__flex {
         flex-direction: column;
