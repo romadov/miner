@@ -6,6 +6,7 @@ body {
     align-items: center;
     background-color: black;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
 }
 
 #progress-bar-container {
@@ -27,7 +28,7 @@ body {
     position: relative;
     width: 80%;
     max-width: 960px;
-    height: 83%;
+    height: 100vh;
     max-height: 540px;
     background-image: linear-gradient(-57deg, #0048dc 3%, #0781cc 85%) !important;
     display: none;
@@ -728,6 +729,9 @@ input:checked + .slider:before {
 }
 
 @media screen and (max-width: 670px) {
+    .mobile-bottom-block {
+        display: flex;
+    }
 
     .currency{
         font-size: 14px;

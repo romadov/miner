@@ -479,10 +479,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-        const mobileBottomBlock = document.querySelector('.mobile-bottom-block');
-        if (mobileBottomBlock) {
-            mobileBottomBlock.style.display = 'flex';
-        }
-    }, 500); // Delay in milliseconds (2000ms = 2 seconds)
+    if (window.innerWidth <= 670) {
+        setTimeout(function() {
+            const mobileBottomBlock = document.querySelector('.mobile-bottom-block');
+            if (mobileBottomBlock) {
+                mobileBottomBlock.style.display = 'flex';
+            }
+        }, 500); // Delay in milliseconds (500ms = 0.5 seconds)
+    }
 });
