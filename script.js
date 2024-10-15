@@ -464,8 +464,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileSumDisplay = document.querySelector('.mobile-bottom-block__right__sum');
 
     function updateMobileSumDisplay() {
-        const currencyValue = currencyDisplay.textContent.replace('INR', '').trim();
-        mobileSumDisplay.innerHTML = `<span class="symbol">&#8377;</span> ${currencyValue}`;
+        setTimeout(function() {
+            const currencyValue = currencyDisplay.textContent.replace('INR', '').trim();
+            mobileSumDisplay.innerHTML = `<span class="symbol">&#8377;</span> ${currencyValue}`;
+        }, 1000); // Delay in milliseconds (1000ms = 1 second)
     }
 
     // Initial update
