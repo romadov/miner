@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сапер</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="game-container">
+    <div class="top-banner">
+        <button class="mines-btn">
+            Mines
+            <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon">
+        </button>
+        <button class="how-to-play">
+            <img src="img/icon-question.svg" alt="Question Icon" class="question-icon">
+            How to Play?
+        </button>
+        <span class="cashout-amount" id="cashout-amount-display" style="position: absolute; font-weight: bold; right: 12%; color: green; display: none;"></span>
+        <span class="currency">10,000.00 <span class="symbol">INR</span></span>
+        <img src="img/menu.svg" alt="Menu" class="menu-icon">
+    </div>
+    <div class="mob-padding">
+        <div class="mine-selection">
+            <div class="custom-select">
+                <div class="select-selected select-arrow-active" data-value="3" data-display="Mines: 3">3 <img src="img/icon-dd-arrow.svg" alt="Down Arrow" class="arrow-icon"></div>
+                <div class="select-items select-hide">
+                    <div data-value="1" data-display="Mines: 1">1</div>
+                    <div data-value="2" data-display="Mines: 2">2</div>
+                    <div data-value="3" data-display="Mines: 3" class="selected">3</div>
+                    <div data-value="4" data-display="Mines: 4">4</div>
+                    <div data-value="5" data-display="Mines: 5">5</div>
+                    <div data-value="6" data-display="Mines: 6">6</div>
+                    <div data-value="7" data-display="Mines: 7">7</div>
+                    <div data-value="8" data-display="Mines: 8">8</div>
+                    <div data-value="9" data-display="Mines: 9">9</div>
+                    <div data-value="10" data-display="Mines: 10">10</div>
+                    <div data-value="11" data-display="Mines: 11">11</div>
+                    <div data-value="12" data-display="Mines: 12">12</div>
+                    <div data-value="13" data-display="Mines: 13">13</div>
+                    <div data-value="14" data-display="Mines: 14">14</div>
+                    <div data-value="15" data-display="Mines: 15">15</div>
+                    <div data-value="16" data-display="Mines: 16">16</div>
+                    <div data-value="17" data-display="Mines: 17">17</div>
+                    <div data-value="18" data-display="Mines: 18">18</div>
+                    <div data-value="19" data-display="Mines: 19">19</div>
+                    <div data-value="20" data-display="Mines: 20">20</div>
+                </div>
+            </div>
+            <button class="next-btn" id="next-btn">Next: 1.10x</button>
+        </div>
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+    <div id="minesweeper-field">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+    </div>
+    <div class="game-controls">
+        <button class="control-btn" id="random-btn">RANDOM</button>
+        <div class="auto-game-control">
+            <img src="img/icon-auto-game.svg" alt="Auto Game Icon" class="auto-game-icon">
+            <label class="switch">
+                <input type="checkbox" id="auto-game-toggle">
+                <span class="slider round"></span>
+            </label>
+            <span>Auto Game</span>
+        </div>
+    </div>
+    </div>
+    <div class="bottom-banner">
+        <div class="bottom-banner__flex">
+        <div class="bet-controls">
+            <div class="bottom-banner__text">
+            <label for="bet-input" id="bet-label">Bet INR</label>
+            <input type="text" id="bet-input" value="0.30">
+            </div>
+            <div id="keypad" class="keypad">
+                <div class="keypad-row">
+                    <button class="keypad-btn">1</button>
+                    <button class="keypad-btn">2</button>
+                    <button class="keypad-btn">3</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="keypad-btn">4</button>
+                    <button class="keypad-btn">5</button>
+                    <button class="keypad-btn">6</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="keypad-btn">7</button>
+                    <button class="keypad-btn">8</button>
+                    <button class="keypad-btn">9</button>
+                </div>
+                <div class="keypad-row">
+                    <button class="keypad-btn">.</button>
+                    <button class="keypad-btn">0</button>
+                    <button class="keypad-btn delete-btn">
+                        <img src="img/icon-backspace.svg" alt="Backspace Icon">
+                    </button>
+                </div>
+                <button class="keypad-btn apply-btn"><img src="img/icon-confirm.svg" alt="Apply Icon"></button>
+            </div>
+            <button class="bet-btn" id="minus-btn">-</button>
+            <button class="bet-btn" id="dropdown-btn">
+                <img src="img/icon-coin.svg" alt="Coin Icon">
+            </button>
+            <button class="bet-btn" id="plus-btn">+</button>
+        </div>
+            <div class="button-row">
+            <div class="reload-btn">
+                <img src="img/icon-auto-play.svg" alt="">
+            </div>
+            <div class="relative-block">
+        <button class="bet-btn" id="bet-btn">
+            <img src="img/icon-play.svg" alt="Play Icon" class="icon-play">
+            BET
+        </button>
+                <button id="cashout-btn" style="display: none;">
+                    CASH OUT
+                    <span id="cashout-amount"></span>
+                </button>
+                </button>
+            </div>
+
+            </div>
+        </div>
+        <div id="dropdown-menu">
+            <div class="dropdown-header">Bet INR</div>
+            <div class="dropdown-content">
+                <div class="dropdown-item">0.10</div>
+                <div class="dropdown-item">0.20</div>
+                <div class="dropdown-item">0.30</div>
+                <div class="dropdown-item">0.40</div>
+                <div class="dropdown-item">0.50</div>
+                <div class="dropdown-item">0.60</div>
+                <div class="dropdown-item">0.70</div>
+                <div class="dropdown-item">0.80</div>
+                <div class="dropdown-item">1.20</div>
+                <div class="dropdown-item">2.00</div>
+                <div class="dropdown-item">4.00</div>
+                <div class="dropdown-item">10.00</div>
+                <div class="dropdown-item">20.00</div>
+                <div class="dropdown-item">50.00</div>
+                <div class="dropdown-item">100.00</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mobile-bottom-block">
+    <div class="mobile-bottom-block__left"><img src="img/icon-dd-arrow.svg" alt="Down Left" class="arrow-icon-left"> Back</div>
+    <div class="mobile-bottom-block__right">
+        <div class="mobile-bottom-block__right__sum">
+
+        </div>
+        <div class="mobile-bottom-block__right__btn">Deposit</div>
+    </div>
+</div>
+<script src="script.js"></script>
+<script src="gameLogic.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currencySymbol = localStorage.getItem('currencySymbol') || 'INR';
+        document.querySelectorAll('.currency .symbol').forEach(function(symbolElement) {
+            symbolElement.textContent = currencySymbol;
+        });
+        document.getElementById('bet-label').textContent = `Bet ${currencySymbol}`;
+        document.querySelector('.dropdown-header').textContent = `Bet ${currencySymbol}`;
+    });
+</script>
+</body>
+</html>
