@@ -352,7 +352,7 @@ body, html {
     transform: translateY(-50%);
     width: 16.1875rem;
     height: 16.3125rem;
-    background: url("/images/star.svg");
+    background: url("../images/star.svg");
 }
 
 .app-mines__main .game-body-wrapper::after {
@@ -363,7 +363,7 @@ body, html {
     transform: translateY(-50%);
     width: 9.625rem;
     height: 19.0625rem;
-    background: url("/images/bomb.svg");
+    background: url("../images/bomb.svg");
 }
 
 .mines-container {
@@ -718,19 +718,19 @@ body, html {
 }
 
 .mines-container .mines-item-yellow-star {
-    background: url("/images/mines/mines-star.png") 0 0/100% 100% no-repeat !important;
+    background: url("../images/mines/mines-star.png") 0 0/100% 100% no-repeat !important;
 }
 
 .mines-container .mines-item-bomb {
-    background: url("/images/mines/mines-bomb.png") 0 0/100% 100% no-repeat !important;
+    background: url("../images/mines/mines-bomb.png") 0 0/100% 100% no-repeat !important;
 }
 
 .mines-container .mines-item-star {
-    background: url("/images/mines/mines-star-two.png") 0 0/100% 100% no-repeat !important;
+    background: url("../images/mines/mines-star-two.png") 0 0/100% 100% no-repeat !important;
 }
 
 .mines-container .mines-item-explosion {
-    background: url("/images/mines/mines-explosion.png") 0 0/100% 100% no-repeat !important;
+    background: url("../images/mines/mines-explosion.png") 0 0/100% 100% no-repeat !important;
 }
 
 .button-random {
@@ -806,7 +806,7 @@ body, html {
     width: 0.625rem;
     height: 0.625rem;
     transform: rotate(90deg);
-    background: url(../images/icons/icon-arrow.svg) no-repeat center center/contain;
+    background: url("../images/icons/icon-arrow.svg") no-repeat center center/contain;
 }
 
 .footer-controls-balance {
