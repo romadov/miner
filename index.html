@@ -36,8 +36,9 @@
                         </div>
                     </div>
                     <div class="game-header__right">
-                        <div class="balance text-white mr-2 d-flex align-items-center ml-auto"> 3,000.00 <span
-                                class="text-white-50 ml-1">USD</span></div>
+                        <div class="balance-adding"></div>
+                        <div class="balance text-white mr-2 d-flex align-items-center ml-auto"> 10,000.00 <span
+                                class="text-white-50 ml-1">INR</span></div>
                         <div class="button-menu">
                             <button type="button" class="button button-blue">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -74,14 +75,14 @@
                                 <div class="number-of-mines">
                                     <div class="dropdown" data-dropdown>
                                         <button class="dropdown-toggle button button-blue" data-dropdown-toggle>
-                                            <span class="centered-xy">Mines: 4</span>
+                                            <span class="centered-xy">Mines: 3</span>
                                         </button>
                                         <div data-dropdown-menu>
                                             <div class="shadow dropdown-list-number dropdown-menu">
                                                 <button class="dropdown-item">1</button>
                                                 <button class="dropdown-item">2</button>
-                                                <button class="dropdown-item">3</button>
-                                                <button class="dropdown-item active">4</button>
+                                                <button class="dropdown-item active">3</button>
+                                                <button class="dropdown-item">4</button>
                                                 <button class="dropdown-item">5</button>
                                                 <button class="dropdown-item">6</button>
                                                 <button class="dropdown-item">7</button>
@@ -180,7 +181,7 @@
                                     <div class="spinner h-100 dropup" data-dropdown>
                                         <div class="dropdown-toggle h-100">
                                             <div class="bet-spinner">
-                                                <span class="note">Bet USD</span>
+                                                <span class="note">Bet INR</span>
                                                 <div class="input-wrapper d-flex flex-column justify-content-center align-items-center">
                                                     <input autocomplete="off" type="text" name="form[]" value="0.30"
                                                            data-dropdown-toggle data-error="Помилка" placeholder=""
@@ -225,42 +226,7 @@
                                                 </div>
                                                 <div class="numpad-button">
                                                     <button type="button" class="button button-blue">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                             xmlns:xlink="http://www.w3.org/1999/xlink" width="22"
-                                                             height="17" viewBox="0 0 22 17">
-                                                            <defs>
-                                                                <filter id="prefix__a" width="104.7%" height="112.5%"
-                                                                        x="-2.3%" y="-3.1%"
-                                                                        filterUnits="objectBoundingBox">
-                                                                    <feOffset dy="1" in="SourceAlpha"
-                                                                              result="shadowOffsetOuter1"/>
-                                                                    <feColorMatrix in="shadowOffsetOuter1"
-                                                                                   values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-                                                                </filter>
-                                                                <filter id="prefix__c" width="111.3%" height="122.5%"
-                                                                        x="-5.6%" y="-5.6%"
-                                                                        filterUnits="objectBoundingBox">
-                                                                    <feOffset dy="1" in="SourceAlpha"
-                                                                              result="shadowOffsetOuter1"/>
-                                                                    <feColorMatrix in="shadowOffsetOuter1"
-                                                                                   values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-                                                                </filter>
-                                                                <path id="prefix__b"
-                                                                      d="M20.444 0h-14.9c-.299 0-.579.151-.743.402L.145 7.513c-.193.296-.193.678 0 .974l4.656 7.111c.164.25.444.402.744.402h14.9c.49 0 .888-.398.888-.889V.89c0-.491-.398-.889-.889-.889zm-.888 14.222H6.026L1.95 8l4.074-6.222h13.53v12.444z"/>
-                                                                <path id="prefix__d"
-                                                                      d="M8.26 12.184c.347.347.91.347 1.257 0l2.927-2.927 2.927 2.927c.347.347.91.347 1.257 0 .348-.347.348-.91 0-1.257L13.701 8l2.927-2.927c.348-.347.348-.91 0-1.257-.347-.347-.91-.347-1.257 0l-2.927 2.927-2.927-2.927c-.347-.347-.91-.347-1.257 0-.347.347-.347.91 0 1.257L11.187 8 8.26 10.927c-.347.347-.347.91 0 1.257z"/>
-                                                            </defs>
-                                                            <g fill="none">
-                                                                <use fill="#000" filter="url(#prefix__a)"
-                                                                     xlink:href="#prefix__b"/>
-                                                                <use fill="#FFF" xlink:href="#prefix__b"/>
-                                                                <g>
-                                                                    <use fill="#000" filter="url(#prefix__c)"
-                                                                         xlink:href="#prefix__d"/>
-                                                                    <use fill="#FFF" xlink:href="#prefix__d"/>
-                                                                </g>
-                                                            </g>
-                                                        </svg>
+                                                        <img src="images/icons/icon-delete.svg" alt="Image">
                                                     </button>
                                                 </div>
                                                 <div class="numpad-button-accept">
@@ -323,7 +289,7 @@
                                         </button>
                                         <div class="fast-bets-menu px-2 dropdown-menu" style="display: none;"
                                              data-dropdown-menu>
-                                            <span class="fast-bets-menu-title">Bet USD</span>
+                                            <span class="fast-bets-menu-title">Bet INR</span>
                                             <div class="row no-gutters w-100">
                                                 <div class="fast-bets-menu-button">
                                                     <button class="button-bets active">0.10</button>
@@ -412,7 +378,7 @@
                                 <button class="btn btn-control btn-cashout btn-yellow w-100 ml-2 hidden">
                     <span class="label">
                       <span class="text-uppercase">Cash out</span>
-                      <span class="btn-control-value">0.33 USD</span>
+                      <span class="btn-control-value">0.00 INR</span>
                     </span>
                                 </button>
 
@@ -447,8 +413,8 @@
                         </div>
                     </div>
                     <div class="game-header__right">
-                        <div class="balance text-white mr-2 d-flex align-items-center ml-auto"> 3,000.00 <span
-                                class="text-white-50 ml-1">USD</span></div>
+                        <div class="balance text-white mr-2 d-flex align-items-center ml-auto"> 10,000.00 <span
+                                class="text-white-50 ml-1">INR</span></div>
                         <div class="button-menu">
                             <button type="button" class="button button-blue">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -487,7 +453,7 @@
 
         <div class="footer-controls__action">
             <div class="footer-controls-balance">
-                <span>$3.000</span>
+                <span class="balance">10,000.00</span><span>INR</span>
             </div>
             <div class="footer-controls-deposit">
                 <button type="button" class="button button-blue">Deposit</button>
