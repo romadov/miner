@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputField = document.querySelector('.input-wrapper .input');
     const cashoutValue = document.querySelector('.btn-control-value');
     const balanceElements = document.querySelectorAll('.balance');
+    const dropdownToggle = document.querySelector('.dropdown-toggle span');
     const coefficients = {
         1: [1.01, 1.05, 1.10, 1.15, 1.21, 1.27, 1.34, 1.42, 1.51, 1.61, 1.73, 1.86, 2.02, 2.20, 2.42, 2.69, 3.03, 3.46, 4.04, 4.85, 6.06, 8.08, 12.12, 24.25],
         2: [1.05, 1.15, 1.25, 1.38, 1.53, 1.70, 1.90, 2.13, 2.42, 2.77, 3.19, 3.73, 4.40, 5.29, 6.46, 8.08, 10.39, 13.85, 19.40, 29.10, 48.50, 97.00, 291.00],
@@ -41,6 +42,60 @@ document.addEventListener('DOMContentLoaded', () => {
         20: [4.85, 29.10, 223.10, 1628.30],
     };
 
+
+
+    const savedInputValue = localStorage.getItem('inputFields');
+    if (savedInputValue !== null) {
+        inputFields.value = savedInputValue;
+    }
+
+    // Retrieve saved selected mines value from local storage
+    const savedSelectedMines = localStorage.getItem('selectedMines');
+    if (savedSelectedMines !== null) {
+        selectedMines = parseInt(savedSelectedMines, 10);
+        dropdownToggle.textContent = `Mines: ${selectedMines}`;
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.classList.remove('active');
+            if (parseInt(item.textContent, 10) === selectedMines) {
+                item.classList.add('active');
+            }
+        });
+    }
+
+    let savedBalanceValues = localStorage.getItem('balanceElements');
+    if (savedBalanceValues) {
+        try {
+            savedBalanceValues = JSON.parse(savedBalanceValues);
+        } catch (e) {
+            savedBalanceValues = ["10,000.00"];
+        }
+    } else {
+        savedBalanceValues = ["10,000.00"];
+    }
+    if (savedBalanceValues !== null) {
+        balanceElements.forEach((element, index) => {
+            if (savedBalanceValues[index] !== undefined) {
+                element.innerHTML = `${savedBalanceValues[index]} <span>INR</span>`;
+            }
+        });
+    }
+
+    inputFields.addEventListener('input', () => {
+        localStorage.setItem('inputFields', inputFields.value);
+    });
+
+    // Save balanceElements values to local storage on change
+    function saveBalanceElements() {
+        const balanceValues = Array.from(balanceElements).map(element => element.textContent.replace(/ INR/g, ''));
+        localStorage.setItem('balanceElements', JSON.stringify(balanceValues));
+    }
+
+    // Call saveBalanceElements whenever balanceElements are updated
+    balanceElements.forEach(element => {
+        const observer = new MutationObserver(saveBalanceElements);
+        observer.observe(element, { childList: true, subtree: true });
+    });
+
     // Function to format numbers as 1,000.00
     function formatNumber(value) {
         return parseFloat(value).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -49,9 +104,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function definitions
     function updateCoefficientDisplay() {
         const nextTileElement = document.querySelector('.next-tile span:nth-child(2)');
-        if (nextTileElement && coefficients[selectedMines] && coefficients[selectedMines][clickCount]) {
-            nextTileElement.textContent = `${coefficients[selectedMines][clickCount]}x`;
+        if (nextTileElement && coefficients[selectedMines] && coefficients[selectedMines][clickCount] !== undefined) {
+            nextTileElement.textContent = `${coefficients[selectedMines][clickCount].toFixed(2)}x`;
         }
+    }
+
+    function resetGame() {
+        // Reset game-specific variables
+        clickCount = 0;
+        minesItemClickCount = 0;
+        mineIndices = [];
+        const balanceAddingElement = document.querySelector('.balance-adding');
+        balanceAddingElement.textContent = '';
+        balanceAddingElement.classList.remove('show');
+        // Reset UI elements
+        document.querySelectorAll('.mines-item').forEach(item => {
+            item.classList.remove('mines-item-bomb', 'mines-item-star', 'mines-item-yellow-star', 'mines-item-explosion', 'flip');
+        });
+
+        // Re-enable elements
+        elementsToDisable.forEach(element => element.removeAttribute('disabled'));
+        btnBet.classList.remove('hidden');
+        btnCashout.classList.add('hidden');
+        setOpacity(btnRandom);
+
+        // Update displays
+        updateCoefficientDisplay();
+        updateProgressBar();
+        updateCashoutValue();
     }
 
     function setOpacity(element) {
@@ -94,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!cell.classList.contains('mines-item-explosion')) {
                         cell.classList.add('mines-item-bomb', 'flip');
                         setTimeout(() => {
-                            location.reload();
+                            resetGame();
                         }, 2000);
                     }
                 } else {
@@ -117,9 +197,23 @@ document.addEventListener('DOMContentLoaded', () => {
         currentBalance -= currentBet;
         setTimeout(() => {
             balanceElements.forEach(element => {
-                element.textContent = formatNumber(currentBalance) + ' INR';
+                element.innerHTML = `${formatNumber(currentBalance)} <span class="text-white-50 ml-1">INR</span>`;
             });
-        }, 500); // 0.5 second delay
+        }, 1000);
+    }
+
+    function cashOut() {
+        const cashoutAmount = parseFloat(cashoutValue.textContent.replace(/,/g, '').replace(' INR', '')) || 0;
+        let currentBalance = parseFloat(balanceElements[0].textContent.replace(/,/g, '')) || 0;
+        currentBalance += cashoutAmount;
+
+        balanceElements.forEach(element => {
+            element.textContent = `${formatNumber(currentBalance)} INR`;
+        });
+
+        const balanceAddingElement = document.querySelector('.balance-adding');
+        balanceAddingElement.textContent = `+ ${formatNumber(cashoutAmount)} INR`;
+        balanceAddingElement.classList.add('show');
     }
 
     setOpacity(btnRandom);
@@ -153,20 +247,35 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.fast-bets-menu-button .button-bets').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             document.querySelector('.input-wrapper .input').value = button.textContent;
+            localStorage.setItem('inputFields', button.textContent); // Save the value to local storage
         });
     });
 
     document.querySelector('.button.prev').addEventListener('click', () => {
         inputField.value = Math.max(0, (parseFloat(inputField.value) - 0.10).toFixed(2));
+        localStorage.setItem('inputFields', inputField.value); // Save the value to local storage
     });
     document.querySelector('.button.next').addEventListener('click', () => {
         inputField.value = (parseFloat(inputField.value) + 0.10).toFixed(2);
+        localStorage.setItem('inputFields', inputField.value); // Save the value to local storage
     });
 
     document.querySelectorAll('.mines-item').forEach(item => {
         item.addEventListener('click', () => {
             minesItemClickCount++;
             console.log(`Mines-item clicked ${minesItemClickCount} times`); // Log the click count
+
+            // Add blink effect to btnRandom and btnCashout
+            const btnRandom = document.querySelector('.button-random');
+            const btnCashout = document.querySelector('.btn-cashout');
+
+            btnRandom.classList.add('blink');
+            btnCashout.classList.add('blink');
+
+            setTimeout(() => {
+                btnRandom.classList.remove('blink');
+                btnCashout.classList.remove('blink');
+            }, 430); // Duration of the blink effect
 
             if (minesItemClickCount === desiredClickCount) {
                 generateMines();
@@ -180,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.classList.add('active');
 
             selectedMines = parseInt(this.textContent, 10);
+            localStorage.setItem('selectedMines', selectedMines); // Save to local storage
             console.log('Selected Mines:', selectedMines);
             clickCount = 0;
             updateCoefficientDisplay();
@@ -197,6 +307,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    inputField.addEventListener('focus', () => {
+        inputField.value = '';
+    });
+
     numpadButtons.forEach(button => {
         button.addEventListener('click', () => {
             const value = button.textContent.trim();
@@ -207,11 +321,13 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 inputFields.value += value;
             }
+            localStorage.setItem('inputFields', inputFields.value); // Save the value to local storage
         });
     });
 
     deleteButton.addEventListener('click', () => {
         inputFields.value = inputFields.value.slice(0, -1);
+        localStorage.setItem('inputFields', inputFields.value); // Save the value to local storage
     });
 
     confirmButton.addEventListener('click', () => {
@@ -233,50 +349,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cells.forEach((cell, index) => {
         cell.addEventListener('click', () => {
-            if (mineIndices.includes(index)) {
-                cell.classList.add('mines-item-explosion');
-                revealAllCells();
-            } else {
-                cell.classList.add('mines-item-yellow-star');
-            }
-            updateCashoutValue();
-            clickCount++;
-            updateCoefficientDisplay();
-            updateProgressBar();
+            setTimeout(() => {
+                if (mineIndices.includes(index)) {
+                    cell.classList.add('mines-item-explosion');
+                    revealAllCells();
+                } else {
+                    cell.classList.add('mines-item-yellow-star');
+                }
+                updateCashoutValue();
+                clickCount++;
+                updateCoefficientDisplay();
+                updateProgressBar();
+            }, 200); // 0.5 seconds delay
         });
     });
 
     btnCashout.addEventListener('click', () => {
-        const cashoutValueElement = document.querySelector('.btn-control-value');
-        const cashoutValue = parseFloat(cashoutValueElement.textContent.replace(' INR', '')) || 0;
-        let currentBalance = parseFloat(balanceElements[0].textContent.replace(/,/g, '').replace(' INR', '')) || 0;
-
-        // Add the cashout value to the current balance
-        currentBalance += cashoutValue;
-
-        // Update the balance display with a delay of 0.5 seconds
-        setTimeout(() => {
-            balanceElements.forEach(element => {
-                element.textContent = formatNumber(currentBalance) + ' INR';
-            });
-        }, 500);
-
-        // Update the balance-adding display with a delay of 1 second
-        setTimeout(() => {
-            const balanceAddingElement = document.querySelector('.balance-adding');
-            balanceAddingElement.textContent = `+ ${formatNumber(cashoutValue)} INR`;
-            balanceAddingElement.classList.add('show'); // Show the balance-adding element
-        }, 1000);
-
-        // Reset the game state (optional)
+        cashOut();
         btnCashout.classList.add('hidden');
         btnBet.classList.remove('hidden');
         elementsToDisable.forEach(element => element.removeAttribute('disabled'));
-        cells.forEach(cell => {
-            if (!cell.classList.contains('mines-item-yellow-star')) {
-                cell.classList.remove('mines-item-bomb', 'mines-item-star', 'mines-item-explosion');
-            }
-        });
         clickCount = 0;
         generateMines();
         updateCoefficientDisplay();
@@ -290,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isNaN(numericValue) && numericValue.trim() !== '') {
             inputFields.value = formatNumber(numericValue);
         }
+        localStorage.setItem('inputFields', inputFields.value); // Save the value to local storage
     });
 
     // Initial formatting for input field

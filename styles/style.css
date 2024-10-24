@@ -1171,3 +1171,13 @@ body, html {
 .game-mode-toggle[disabled="true"] .custom-control-label{
    color: #6c757d;
 }
+
+.blink {
+    animation: blink-animation 0.5s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
