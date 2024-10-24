@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputField = document.querySelector('.input-wrapper .input');
     const cashoutValue = document.querySelector('.btn-control-value');
     const balanceElements = document.querySelectorAll('.balance');
+    const footerBalanceElement = document.querySelector('.footer-controls-balance .balance');
     const dropdownToggle = document.querySelector('.dropdown-toggle span');
     const coefficients = {
         1: [1.01, 1.05, 1.10, 1.15, 1.21, 1.27, 1.34, 1.42, 1.51, 1.61, 1.73, 1.86, 2.02, 2.20, 2.42, 2.69, 3.03, 3.46, 4.04, 4.85, 6.06, 8.08, 12.12, 24.25],
@@ -41,8 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         19: [4.04, 19.40, 111.55, 818.03],
         20: [4.85, 29.10, 223.10, 1628.30],
     };
-
-
 
     const savedInputValue = localStorage.getItem('inputFields');
     if (savedInputValue !== null) {
@@ -75,7 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedBalanceValues !== null) {
         balanceElements.forEach((element, index) => {
             if (savedBalanceValues[index] !== undefined) {
-                element.innerHTML = `${savedBalanceValues[index]} <span>INR</span>`;
+                if (element === footerBalanceElement) {
+                    element.innerHTML = `${savedBalanceValues[index]} <span>₹</span>`;
+                } else {
+                    element.innerHTML = `${savedBalanceValues[index]} <span>INR</span>`;
+                }
+            } else {
+                if (element === footerBalanceElement) {
+                    element.innerHTML = `10,000.00 <span>₹</span>`;
+                } else {
+                    element.innerHTML = `10,000.00 <span>INR</span>`;
+                }
             }
         });
     }
@@ -86,7 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Save balanceElements values to local storage on change
     function saveBalanceElements() {
-        const balanceValues = Array.from(balanceElements).map(element => element.textContent.replace(/ INR/g, ''));
+        const balanceValues = Array.from(balanceElements).map(element =>
+            element.textContent.replace(/ INR/g, '').replace(/ ₹/g, '')
+        );
         localStorage.setItem('balanceElements', JSON.stringify(balanceValues));
     }
 
@@ -114,12 +125,17 @@ document.addEventListener('DOMContentLoaded', () => {
         clickCount = 0;
         minesItemClickCount = 0;
         mineIndices = [];
-        const balanceAddingElement = document.querySelector('.balance-adding');
-        balanceAddingElement.textContent = '';
-        balanceAddingElement.classList.remove('show');
+
+        // Clear and hide all balance-adding elements
+        const balanceAddingElements = document.querySelectorAll('.balance-adding');
+        balanceAddingElements.forEach(balanceAddingElement => {
+            balanceAddingElement.textContent = '';
+            balanceAddingElement.classList.remove('show');
+        });
+
         // Reset UI elements
         document.querySelectorAll('.mines-item').forEach(item => {
-            item.classList.remove('mines-item-bomb', 'mines-item-star', 'mines-item-yellow-star', 'mines-item-explosion', 'flip');
+            item.classList.remove('mines-item-bomb', 'mines-item-star', 'mines-item-yellow-star', 'mines-item-explosion', 'flip', 'mines-open');
         });
 
         // Re-enable elements
@@ -197,7 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
         currentBalance -= currentBet;
         setTimeout(() => {
             balanceElements.forEach(element => {
-                element.innerHTML = `${formatNumber(currentBalance)} <span class="text-white-50 ml-1">INR</span>`;
+                if (element === footerBalanceElement) {
+                    element.innerHTML = `${formatNumber(currentBalance)} <span>₹</span>`;
+                } else {
+                    element.innerHTML = `${formatNumber(currentBalance)} <span class="text-white-50 ml-1">INR</span>`;
+                }
             });
         }, 1000);
     }
@@ -208,12 +228,19 @@ document.addEventListener('DOMContentLoaded', () => {
         currentBalance += cashoutAmount;
 
         balanceElements.forEach(element => {
-            element.textContent = `${formatNumber(currentBalance)} INR`;
+            if (element === footerBalanceElement) {
+                element.innerHTML = `${formatNumber(currentBalance)} <span>₹</span>`;
+            } else {
+                element.innerHTML = `${formatNumber(currentBalance)} <span class="text-white-50 ml-1">INR</span>`;
+            }
         });
 
-        const balanceAddingElement = document.querySelector('.balance-adding');
-        balanceAddingElement.textContent = `+ ${formatNumber(cashoutAmount)} INR`;
-        balanceAddingElement.classList.add('show');
+        const balanceAddingElements = document.querySelectorAll('.balance-adding');
+
+        balanceAddingElements.forEach(balanceAddingElement => {
+            balanceAddingElement.textContent = `+ ${formatNumber(cashoutAmount)} INR`;
+            balanceAddingElement.classList.add('show');
+        });
     }
 
     setOpacity(btnRandom);
@@ -265,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
             minesItemClickCount++;
             console.log(`Mines-item clicked ${minesItemClickCount} times`); // Log the click count
 
-            // Add blink effect to btnRandom and btnCashout
+            // Toggle blink effect on btnRandom and btnCashout
             const btnRandom = document.querySelector('.button-random');
             const btnCashout = document.querySelector('.btn-cashout');
 
@@ -275,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 btnRandom.classList.remove('blink');
                 btnCashout.classList.remove('blink');
-            }, 430); // Duration of the blink effect
+            }, 500); // Adjust the delay as needed
 
             if (minesItemClickCount === desiredClickCount) {
                 generateMines();
@@ -365,9 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnCashout.addEventListener('click', () => {
+        setOpacity(btnRandom);
+        setOpacity(btnCashout);
         cashOut();
-        btnCashout.classList.add('hidden');
-        btnBet.classList.remove('hidden');
         elementsToDisable.forEach(element => element.removeAttribute('disabled'));
         clickCount = 0;
         generateMines();

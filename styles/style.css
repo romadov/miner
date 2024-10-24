@@ -1172,12 +1172,15 @@ body, html {
    color: #6c757d;
 }
 
-.blink {
-    animation: blink-animation 0.5s steps(5, start) infinite;
+@keyframes opacity-blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.65;
+    }
 }
 
-@keyframes blink-animation {
-    to {
-        visibility: hidden;
-    }
+.blink {
+    animation: opacity-blink 0.1s 1;
 }
