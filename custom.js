@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.add('mines-prom');
             setTimeout(() => {
                 item.classList.remove('mines-prom');
-            }, 50); // 0.5 seconds delay
+            }, 500); // 0.5 seconds delay
 
             // Toggle blink effect on btnRandom and btnCashout
             const btnRandom = document.querySelector('.button-random');
