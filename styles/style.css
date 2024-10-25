@@ -697,6 +697,10 @@ body, html {
     background: url("../images/mines/mines-main.png") 0 0/100% 100% no-repeat !important;
 }
 
+.mines-container .mines-prom {
+    background: url("../images/mines/mines-prom.png") 0 0/100% 100% no-repeat !important;
+}
+
 @media (min-width: 479.98px) {
     .mines-container .mines-item {
         width: 4.6875rem;
