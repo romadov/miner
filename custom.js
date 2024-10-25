@@ -304,12 +304,10 @@ document.addEventListener('DOMContentLoaded', () => {
             minesItemClickCount++;
             console.log(`Mines-item clicked ${minesItemClickCount} times`); // Log the click count
 
-            if (window.innerWidth <= 768) { // Check if the device width is 768px or less
-                item.classList.add('mines-prom');
-                setTimeout(() => {
-                    item.classList.remove('mines-prom');
-                }, 50); // 0.5 seconds delay
-            }
+            item.classList.add('mines-prom');
+            setTimeout(() => {
+                item.classList.remove('mines-prom');
+            }, 50); // 0.5 seconds delay
 
             // Toggle blink effect on btnRandom and btnCashout
             const btnRandom = document.querySelector('.button-random');
