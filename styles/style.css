@@ -1190,5 +1190,5 @@ body, html {
 }
 
 .blink {
-    animation: opacity-blink 0.1s 1;
+    animation: opacity-blink 0.4s 1;
 }

@@ -205,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+        removeOpacity(btnBet);
     }
 
     function updateCashoutValue() {
@@ -271,14 +272,18 @@ document.addEventListener('DOMContentLoaded', () => {
             generateMines();
         }
         elementsToDisable.forEach(element => element.setAttribute('disabled', 'true'));
-        btnBet.classList.add('hidden');
-        removeOpacity(btnRandom);
-        btnCashout.classList.remove('hidden');
-        document.querySelectorAll('div.mines-item').forEach(div => {
-            div.classList.add('mines-open');
-            div.removeAttribute('disabled'); // Enable mines items
-        });
-        updateBalance(); // Update balance when bet is placed
+        setOpacity(btnBet);
+        setTimeout(() => {
+            btnBet.classList.add('hidden');
+            removeOpacity(btnRandom);
+            setOpacity(btnCashout);
+            btnCashout.classList.remove('hidden');
+            document.querySelectorAll('div.mines-item').forEach(div => {
+                div.classList.add('mines-open');
+                div.removeAttribute('disabled'); // Enable mines items
+            });
+            updateBalance(); // Update balance when bet is placed
+        }, 300); // 1 second delay
     });
 
     document.querySelectorAll('.fast-bets-menu-button .button-bets').forEach(button => {
@@ -303,7 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             minesItemClickCount++;
             console.log(`Mines-item clicked ${minesItemClickCount} times`); // Log the click count
-
             item.classList.add('mines-prom');
             setTimeout(() => {
                 item.classList.remove('mines-prom');
@@ -315,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             btnRandom.classList.add('blink');
             btnCashout.classList.add('blink');
+            removeOpacity(btnCashout);
 
             setTimeout(() => {
                 btnRandom.classList.remove('blink');
