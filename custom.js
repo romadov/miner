@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.add('mines-prom');
             setTimeout(() => {
                 item.classList.remove('mines-prom');
-            }, 500); // 0.5 seconds delay
+            }, 600); // 0.5 seconds delay
 
             // Toggle blink effect on btnRandom and btnCashout
             const btnRandom = document.querySelector('.button-random');
@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 btnRandom.classList.remove('blink');
                 btnCashout.classList.remove('blink');
-            }, 500); // Adjust the delay as needed
+            }, 600); // Adjust the delay as needed
 
             if (minesItemClickCount === desiredClickCount) {
                 generateMines(index);
