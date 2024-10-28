@@ -1163,6 +1163,10 @@ body, html {
     display: flex;
 }
 
+.mr-1{
+    font-size: 0.8125rem;
+}
+
 @keyframes flip {
     0% {
         transform: perspective(600px) rotateY(0deg);

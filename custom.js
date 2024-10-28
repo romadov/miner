@@ -76,13 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
         balanceElements.forEach((element, index) => {
             if (savedBalanceValues[index] !== undefined) {
                 if (element === footerBalanceElement) {
-                    element.innerHTML = `<span>₹</span> ${savedBalanceValues[index]}`;
+                    element.innerHTML = `${savedBalanceValues[index]}`;
                 } else {
                     element.innerHTML = `${savedBalanceValues[index]} <span>INR</span>`;
                 }
             } else {
                 if (element === footerBalanceElement) {
-                    element.innerHTML = `<span>₹</span> 10,000.00`;
+                    element.innerHTML = `10,000.00`;
                 } else {
                     element.innerHTML = `10,000.00 <span>INR</span>`;
                 }
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save balanceElements values to local storage on change
     function saveBalanceElements() {
         const balanceValues = Array.from(balanceElements).map(element =>
-            `₹ ${element.textContent.replace(/ INR/g, '').replace(/ ₹/g, '')}`
+            element.textContent.replace(/ INR/g, '').replace(/ ₹/g, '').trim()
         );
         localStorage.setItem('balanceElements', JSON.stringify(balanceValues));
     }
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         balanceElements.forEach(element => {
             if (element === footerBalanceElement) {
                 setTimeout(() => {
-                    element.innerHTML = `<span>₹</span> ${formatNumber(currentBalance)}`;
+                    element.innerHTML = ` ${formatNumber(currentBalance)}`;
                 }, 2000); // 2-second delay for footerBalanceElement
             } else {
                 element.innerHTML = `${formatNumber(currentBalance)} <span class="text-white-50 ml-1">INR</span>`;
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         balanceElements.forEach(element => {
             if (element === footerBalanceElement) {
                 setTimeout(() => {
-                    element.innerHTML = `<span>₹</span> ${formatNumber(currentBalance)}`;
+                    element.innerHTML = `${formatNumber(currentBalance)}`;
                 }, 2000); // 2-second delay for footerBalanceElement
             } else {
                 element.innerHTML = `${formatNumber(currentBalance)} <span class="text-white-50 ml-1">INR</span>`;
@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (desiredClickCount === 0) {
             generateMines();
         }
-        elementsToDisable.forEach(element => element.setAttribute('disabled', 'true'));
+        // elementsToDisable.forEach(element => element.setAttribute('disabled', 'true'));
         setOpacity(btnBet);
         setTimeout(() => {
             btnBet.classList.add('hidden');
@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setOpacity(btnRandom);
         setOpacity(btnCashout);
         cashOut();
-        elementsToDisable.forEach(element => element.removeAttribute('disabled'));
+        // elementsToDisable.forEach(element => element.removeAttribute('disabled'));
         clickCount = 0;
         generateMines();
         updateCoefficientDisplay();
