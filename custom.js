@@ -236,6 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentBalance = parseFloat(balanceElements[0].textContent.replace(/,/g, '')) || 0;
         currentBalance += cashoutAmount;
 
+        setOpacity(btnRandom);
+
         balanceElements.forEach(element => {
             if (element === footerBalanceElement) {
                 setTimeout(() => {
@@ -283,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.removeAttribute('disabled'); // Enable mines items
             });
             updateBalance(); // Update balance when bet is placed
-        }, 300); // 1 second delay
+        }, 200); // 1 second delay
     });
 
     document.querySelectorAll('.fast-bets-menu-button .button-bets').forEach(button => {
@@ -311,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.add('mines-prom');
             setTimeout(() => {
                 item.classList.remove('mines-prom');
-            }, 600); // 0.5 seconds delay
+            }, 200); // 0.5 seconds delay
 
             // Toggle blink effect on btnRandom and btnCashout
             const btnRandom = document.querySelector('.button-random');
@@ -324,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 btnRandom.classList.remove('blink');
                 btnCashout.classList.remove('blink');
-            }, 600); // Adjust the delay as needed
+            }, 200); // Adjust the delay as needed
 
             if (minesItemClickCount === desiredClickCount) {
                 generateMines(index);
