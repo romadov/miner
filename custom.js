@@ -273,7 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (desiredClickCount === 0) {
             generateMines();
         }
-        // elementsToDisable.forEach(element => element.setAttribute('disabled', 'true'));
+
+        elementsToDisable.forEach(element => element.setAttribute('disabled', 'true'));
         setOpacity(btnBet);
         setTimeout(() => {
             btnBet.classList.add('hidden');
