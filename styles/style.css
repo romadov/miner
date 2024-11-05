@@ -1145,6 +1145,10 @@ body, html {
     opacity: 1 !important;
 }
 
+.mines-item {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .balance-adding {
     display: none;
     color: #fff;
