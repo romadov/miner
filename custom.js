@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let desiredClickCount = localStorage.getItem('desiredClickCount') || 0;
     desiredClickCount = parseInt(desiredClickCount, 10);
     let minesItemClickCount = 0;
-    const audioSoftWin = new Audio('/audio/soft_win.mp3');
-    const audioBigButton = new Audio('/audio/big_button.mp3');
+    const audioSoftWin = new Audio('../audio/soft_win.mp3');
+    const audioBigButton = new Audio('../audio/big_button.mp3');
     const inputFields = document.querySelector('.input');
     const numpadButtons = document.querySelectorAll('.numpad-button .button-blue');
     const deleteButton = document.querySelector('.numpad-button img[alt="Image"]');
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function revealAllCells() {
-        const audioWin = new Audio('/audio/win.mp3');
+        const audioWin = new Audio('../audio/win.mp3');
         cells.forEach((cell, index) => {
             if (!cell.classList.contains('mines-item-yellow-star')) {
                 if (mineIndices.includes(index)) {
