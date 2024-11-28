@@ -507,7 +507,7 @@ body, html {
 
 @media (max-width: 479.98px) {
     .mines-container .mines-header {
-        padding: 0 0.125rem;
+        padding: 0 0.525rem;
         margin-bottom: 0.625rem;
     }
 }
@@ -536,8 +536,8 @@ body, html {
 .mines-container .mines-header-info .dropdown-toggle {
     position: relative;
     flex: 0 0 8.125rem;
-    max-width: 8.125rem;
-    min-width: 8.125rem;
+    max-width: 8.725rem;
+    min-width: 8.725rem;
     height: 1.25rem;
     font-size: 0.75rem;
     font-size: inherit;
@@ -563,7 +563,7 @@ body, html {
     height: 10px;
     border: none;
     position: absolute;
-    right: 10px;
+    right: 4px;
     top: 50%;
     transform: translateY(-50%);
     background: url("../images/icons/icon-arrow.svg") no-repeat center center/contain;
