@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let mineIndices = [];
     let selectedMines = 3;
     let clickCount = 0;
-    let desiredClickCount = localStorage.getItem('desiredClickCount') || 0;
+    // let desiredClickCount = localStorage.getItem('desiredClickCount') || 0;
+    let desiredClickCount = 10;
     desiredClickCount = parseInt(desiredClickCount, 10);
     let minesItemClickCount = 0;
     const audioSoftWin = new Audio('./audio/soft_win.mp3');
@@ -425,8 +426,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // elementsToDisable.forEach(element => element.removeAttribute('disabled'));
         clickCount = 0;
         generateMines();
-        updateCoefficientDisplay();
-        updateProgressBar();
         revealAllCells();
     });
 
