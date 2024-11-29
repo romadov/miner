@@ -102,6 +102,11 @@ body, html {
     position: relative;
 }
 
+.button-how-to-play svg{
+    width: 18px;
+    height: 20px;
+}
+
 .button-how-to-play:active {
     transform: translateY(1px);
 }
@@ -1156,6 +1161,7 @@ body, html {
 .balance-adding {
     display: none;
     color: #fff;
+    border: 1px solid black;
     background-color: #15902d;
     height: 22px;
     font-size: 13px;
