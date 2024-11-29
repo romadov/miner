@@ -70,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             savedBalanceValues = JSON.parse(savedBalanceValues);
         } catch (e) {
-            savedBalanceValues = ["100,000.00"];
+            savedBalanceValues = ["50,000.00"];
         }
     } else {
-        savedBalanceValues = ["100,000.00"];
+        savedBalanceValues = ["50,000.00"];
     }
     if (savedBalanceValues !== null) {
         balanceElements.forEach((element, index) => {
@@ -85,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 if (element === footerBalanceElement) {
-                    element.innerHTML = `100,000.00`;
+                    element.innerHTML = `50,000.00`;
                 } else {
-                    element.innerHTML = `100,000.00 <span>INR</span>`;
+                    element.innerHTML = `50,000.00 <span>INR</span>`;
                 }
             }
         });
