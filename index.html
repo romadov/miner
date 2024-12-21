@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<base href="/"><!DOCTYPE html>
 <html lang="en">
 <head>
-    <base href="https://romadov.github.io/miner/">
+    <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="game-header__right">
                         <div class="balance-adding"></div>
-                        <div class="balance text-white mr-2 d-flex align-items-center ml-auto"> 50,000.00 <span
+                        <div class="balance text-white mr-2 d-flex align-items-center ml-auto"> 2,000.00 <span
                                 class="text-white-50 ml-1"></span></div>
                         <div class="button-menu">
                             <button type="button" class="button button-blue">
@@ -414,7 +414,7 @@
                     </div>
                     <div class="game-header__right">
                         <div class="balance-adding"></div>
-                        <div class="balance text-white mr-2 d-flex align-items-center ml-auto">50,000.00 <span
+                        <div class="balance text-white mr-2 d-flex align-items-center ml-auto">2,000.00 <span
                                 class="text-white-50 ml-1">INR</span></div>
                         <div class="button-menu">
                             <button type="button" class="button button-blue">
@@ -455,7 +455,7 @@
         <div class="footer-controls__action">
             <div class="footer-controls-balance">
                 <span>₹</span>
-                <span class="balance">50,000.00</span>
+                <span class="balance">2,000.00</span>
             </div>
             <div class="footer-controls-deposit">
                 <button type="button" class="button button-blue">Deposit</button>
@@ -464,5 +464,18 @@
     </div>
 </div>
 <script src="custom.js"></script>
+<script>
+    window.addEventListener('message', (event) => {
+        console.log('Сообщение от родительской страницы:', event);
+        if (event.origin === 'https://evhastanesi.com/') {
+            if (event.data.key === 'getBalance') {
+                const balanceElements = localStorage.getItem('balanceElements');
+                if (balanceElements) {
+                    window.parent.postMessage({ key: 'balanceElements', value: balanceElements }, event.origin);
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>
